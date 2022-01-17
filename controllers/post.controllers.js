@@ -1,53 +1,51 @@
 const db = require("../models");
-const Post = db.tutorials;
+const Post = db.post;
 const Op = db.Sequelize.Op;
 
-// Crée et sauvegarder un post
+// Crée un post
 exports.create = (req, res) => {
- // Validate request
- if (!req.body.title) {
-   res.status(400).send({
-     message: "Content can not be empty!"
-   });
-   return;
- }
 
- // Crée un post
- const post = {
-   title: req.body.title,
-   description: req.body.description,
-   published: req.body.published ? req.body.published : false
+  // Crée un post
+  const post = {
+    title: req.body.title,
+    content: req.body.content,
+  };
+ 
+  // Sauvegarder un post dans la DB
+  Post.create(post)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message,////////////
+      });
+    });
  };
 
- // Sauvegarder un post dans la DB
- Post.create(tutorial)
-   .then(data => {
-     res.send(data);
-   })
-   .catch(err => {
-     res.status(500).send({
-       message:
-         err.message || "Some error occurred while creating the Tutorial."
-     });
-   });
-};
+
+exports.getAll = (req, res) => {
+  const title = req.query.title;
+ 
+  Post.findAll()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message/////////////////////
+      });
+    });
+ };
+
+
+// Crée et sauvegarder un post
+
 
 // Retrouver tout les posts dans la DB
-exports.findAll = (req, res) => {
- const title = req.query.title;
- var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
- Post.findAll({ where: condition })
-   .then(data => {
-     res.send(data);
-   })
-   .catch(err => {
-     res.status(500).send({
-       message:
-         err.message || "Some error occurred while retrieving tutorials."
-     });
-   });
-};
 
 // Trouver un post grâce à son id
 exports.findOne = (req, res) => {

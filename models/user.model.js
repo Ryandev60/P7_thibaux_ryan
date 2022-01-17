@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user", {
+  const User = sequelize.define("User", {
     email: {
       type: Sequelize.STRING,
       unique: true,
@@ -20,19 +20,27 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
-        isAlpha: true
+        notEmpty: true
       },
     },
     lastname: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
-        isAlpha: true
+        notEmpty: true
       }
     },
+    isAdmin : {
+      type: Sequelize.BOOLEAN,
+      defaultValue : false
+    }
   });
+
+  User.associate = models => {
+    User.hasMany(models.Post, {
+      onDelete: "cascade"
+    });
+  };
 
   return User;
 };

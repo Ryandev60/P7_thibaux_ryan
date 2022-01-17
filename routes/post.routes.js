@@ -1,11 +1,13 @@
-module.exports = app => {
- const postController = require("../controllers/post.controllers.js");
+const auth = require("../middleware/auth.js");
 
-router.get('/', auth, postController.findAll);
-router.post('/', auth, postController.create);
-router.get('/:id', auth, postController.findOne);
-router.put('/:id', auth, postController.update);
-router.delete('/:id', auth, postController.delete);
+module.exports = (app) => {
+  const postController = require("../controllers/post.controllers.js");
 
- app.use('/api/post', router);
+  router.get("/",  postController.getAll);
+  router.post("/",  postController.create); // auth
+  router.get("/:id", postController.getOne);
+  router.put("/:id",  postController.modify);
+  router.delete("/:id", postController.delete);
+
+  app.use("/api/post", router);
 };

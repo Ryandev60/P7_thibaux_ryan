@@ -1,6 +1,12 @@
 // Importation d'express qui est un framework pour construire des applications web basées sur nodeJS
 const express = require("express");
+
+// Création d'application express
 const app = express();
+
+// Importation dotenv
+const dotenv = require('dotenv').config();
+
 
 // Importation de la DB
 const db = require("./models");
@@ -31,9 +37,10 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-
+// Importations des routes
 require("./routes/user.routes")(app);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
+// Exportations de nos app pour le server.js
 module.exports = app;

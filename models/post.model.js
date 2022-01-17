@@ -1,15 +1,20 @@
-module.exports = (sequelize, Sequelize) => {
- const Post = sequelize.define("post", {
-   title: {
-     type: Sequelize.STRING
-   },
-   description: {
-     type: Sequelize.STRING
-   },
-   published: {
-     type: Sequelize.BOOLEAN
-   }
- });
+const User = require("./user.model");
 
- return Post;
+module.exports = (sequelize, Sequelize) => {
+  const Post = sequelize.define("Post", {
+    user: {
+      type: Sequelize.STRING,
+    },
+    content: {
+      type: Sequelize.STRING,
+    },
+    publishedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+  });
+
+//  Post.belongsTo(User);
+
+  return Post;
 };
