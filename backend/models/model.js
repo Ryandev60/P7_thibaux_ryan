@@ -1,3 +1,5 @@
+const Post = require("./post.model");
+
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("User", {
     email: {
@@ -13,34 +15,53 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
-      }
+        notEmpty: true,
+      },
     },
     firstname: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: true,
       },
     },
     lastname: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true
-      }
+        notEmpty: true,
+      },
     },
-    isAdmin : {
+    isAdmin: {
       type: Sequelize.BOOLEAN,
-      defaultValue : false
-    }
+      defaultValue: false,
+    },
   });
-
-  User.associate = models => {
-    User.hasMany(models.Post, {
-      onDelete: "cascade"
-    });
-  };
-
+  
   return User;
 };
+
+const User = require("./user.model");
+
+module.exports = (sequelize, Sequelize) => {
+  const Post = sequelize.define("Post", {
+    userId: {
+      type: Sequelize.STRING,
+    },
+    content: {
+      type: Sequelize.STRING,
+    },
+    publishedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+  });
+
+ 
+
+  return Post;
+};
+User.hasMany(Post, {});
+
+Post.belongsTo(User, {})
+

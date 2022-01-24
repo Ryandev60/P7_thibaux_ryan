@@ -7,16 +7,11 @@ const app = express();
 // Importation dotenv
 const dotenv = require('dotenv').config();
 
-
-// Importation de la DB
+// Importation des models
 const db = require("./models");
 
 // Syncronisation de la DB
 db.sequelize.sync();
-
-// Importations des routes 
-const postRoutes = require("./routes/post.routes");
-const commentRoutes = require("./routes/comment.routes");
 
 // Ajout de headers à l'objet res pour permettre à l'application d'accéder à l'API
 app.use((req, res, next) => { // On l'applique sur toutes les routes
@@ -39,8 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Importations des routes
 require("./routes/user.routes")(app);
-app.use('/api/post', postRoutes);
-app.use('/api/comment', commentRoutes);
+require("./routes/post.routes")(app);
+
 
 // Exportations de nos app pour le server.js
 module.exports = app;

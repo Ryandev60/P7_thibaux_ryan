@@ -15,10 +15,9 @@ exports.signup = (req, res) => {
       lastname: req.body.lastname,
     }; // Sauvegarder un utilisateur dans la FB
     User.create(user)
-      .then((data) => {
-        res.send(data);
+      .then(() => {
         res.status(201).send({
-          message: "L'utilisateur n'a pas pu être crée", ////////////////////
+          message: "L'utilisateur a été créé", ////////////////////
         });
       })
       .catch((err) => {

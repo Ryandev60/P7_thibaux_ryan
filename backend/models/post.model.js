@@ -2,7 +2,7 @@ const User = require("./user.model");
 
 module.exports = (sequelize, Sequelize) => {
   const Post = sequelize.define("Post", {
-    user: {
+    userId: {
       type: Sequelize.STRING,
     },
     content: {
@@ -14,7 +14,13 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-//  Post.belongsTo(User);
+  Post.associate = (models) => {
+    Post.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: false,
+      }
+    });
+  };
 
   return Post;
 };

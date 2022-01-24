@@ -1,4 +1,5 @@
 const auth = require("../middleware/auth.js");
+const db = require('../models');
 
 module.exports = (app) => {
   const userController = require("../controllers/user.controllers.js");
