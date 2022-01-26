@@ -1,5 +1,4 @@
 const db = require("../models");
-const User = db.user;
 const Op = db.Sequelize.Op;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -11,10 +10,10 @@ exports.signup = (req, res) => {
     const user = {
       email: req.body.email,
       password: hash,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
     }; // Sauvegarder un utilisateur dans la FB
-    User.create(user)
+    db.User.create(user)
       .then(() => {
         res.status(201).send({
           message: "L'utilisateur a été créé", ////////////////////
@@ -22,7 +21,7 @@ exports.signup = (req, res) => {
       })
       .catch((err) => {
         res.status(400).send({
-          message: "L'utilisateur n'a pas pu être crée", ////////////////////
+          message: "L'utilisateur n'a pas pu être créé", ////////////////////
         });
       });
   });

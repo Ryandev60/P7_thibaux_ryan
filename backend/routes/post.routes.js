@@ -1,15 +1,19 @@
-const auth = require("../middleware/auth.js");
+const express = require("express");
+const router = express.Router();
+const postController = require("../controllers/post.controllers");
+const auth = require("../middleware/auth");
+const multer = require("../middleware/multer-config");
 
-module.exports = (app) => {
-  const postController = require("../controllers/post.controllers");
-  var router = require("express").Router();
+// Récupérer tout les posts
+router.get("/", postController.getAll);
 
-  
-  router.get("/",  postController.getAll);
-  // router.post("/",  postController.create); // auth
-  // router.get("/:id", postController.getOne);
-  // router.put("/:id",  postController.modify);
-  // router.delete("/:id", postController.delete);
+// Créé un post
+router.post("/", postController.create);
 
-  app.use("/api/post", router);
-};
+// Supprimer un post
+router.delete("/:id", postController.delete);
+
+// router.get("/:id", postController.getOne);
+// router.put("/:id",  postController.modify);
+
+module.exports = router;

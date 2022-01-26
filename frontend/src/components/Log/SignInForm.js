@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const SignInForm = () => {
   const [email, setEmail] = useState("");
@@ -8,29 +7,8 @@ const SignInForm = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
 
-    // axios({
-    //   method: "post",
-    //   url: `${process.env.REACT_APP_API_URL}api/user/login`,
-    //   withCredentials: "true",
-    //   data: {
-    //     email,
-    //     password,
-    //   },
-    // })
-    //   .then((res) => {
-    //     if (res.data.errors) {
-    //       emailError.innerHTML = res.data.errors.email;
-    //       passwordError.innerHTML = res.data.errors.password;
-    //     } else {
-    //       window.location = "/";
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+   
   };
   return (
     <div className="center">
@@ -60,8 +38,10 @@ const SignInForm = () => {
           <br />
           <div className="sign">
             {" "}
-            <button>S'inscrire</button>
             <input type="submit" value="Se connecter" />
+            <br />
+            <button>S'inscrire</button>
+
           </div>
         </form>
       </div>

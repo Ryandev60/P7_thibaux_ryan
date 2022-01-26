@@ -1,117 +1,69 @@
 const db = require("../models");
-const Post = db.post;
-const Op = db.Sequelize.Op;
-const User = require('../models/user.model');
+const fs = require("fs");
 
-// // Crée un post
-// exports.create = (req, res) => {
+// Créé un Post
 
-//   // Crée un post
-//   const post = {
-//     title: req.body.title,
-//     content: req.body.content,
-//   };
- 
-//   // Sauvegarder un post dans la DB
-//   Post.create(post)
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message:
-//           err.message,////////////
-//       });
-//     });
-//  };
+exports.create = (req, res) => {
+  const newPost = {
+    title: req.body.title,
+    content: req.body.content,
+    creatorId: req.body.creatorId,
+  };
+  console.log(newPost);
+  db.Post.create(newPost)
+    .then(() => {
+      res.status(201).send({
+        message: "Le post a été crée", ////////////////////
+      });
+    })
+    .catch((err) => {
+      res.status(400).send({
+        message: "Le post n'a pas pu être créé", ////////////////////
+      });
+    });
+};
 
+// Récupérer tout  les Posts
 
 exports.getAll = (req, res) => {
- 
-  Post.findAll({
-    include: [{
-      model: User,
-      required: true
-     }]
-  }).then(posts => {
-    /* ... */
-  });
- };
+  db.Post.findAll({
+    include: [
+      {
+        model: db.User,
+        attributes: ["firstName", "lastName"],
+      },
+      {
+        model: db.comment,
+        attributes: ["creatorId"]
+      },
+    ],
+    order: [["createdAt", "DESC"]],
+  })
+    .then((posts) => res.status(200).json(posts))
+    .catch((error) => res.status(500).json({ error }));
+};
 
+// Supprimer un post
 
-// Crée et sauvegarder un post
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  console.log(id);
 
-
-// Retrouver tout les posts dans la DB
-
-
-// // Trouver un post grâce à son id
-// exports.findOne = (req, res) => {
-//  const id = req.params.id;
-
-//  Post.findByPk(id)
-//    .then(data => {
-//      if (data) {
-//        res.send(data);
-//      } else {
-//        res.status(404).send({
-//          message: `Cannot find Tutorial with id=${id}.`
-//        });
-//      }
-//    })
-//    .catch(err => {
-//      res.status(500).send({
-//        message: "Error retrieving Tutorial with id=" + id
-//      });
-//    });
-// };
-
-// // Mettre à jour un post grâce à son id
-// exports.update = (req, res) => {
-//  const id = req.params.id;
-
-//  Post.update(req.body, {
-//    where: { id: id }
-//  })
-//    .then(num => {
-//      if (num == 1) {
-//        res.send({
-//          message: "Tutorial was updated successfully."
-//        });
-//      } else {
-//        res.send({
-//          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
-//        });
-//      }
-//    })
-//    .catch(err => {
-//      res.status(500).send({
-//        message: "Error updating Tutorial with id=" + id
-//      });
-//    });
-// };
-
-// // Supprimer un post grâce à son id
-// exports.delete = (req, res) => {
-//  const id = req.params.id;
-
-//  Post.destroy({
-//    where: { id: id }
-//  })
-//    .then(num => {
-//      if (num == 1) {
-//        res.send({
-//          message: "Tutorial was deleted successfully!"
-//        });
-//      } else {
-//        res.send({
-//          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
-//        });
-//      }
-//    })
-//    .catch(err => {
-//      res.status(500).send({
-//        message: "Could not delete Tutorial with id=" + id
-//      });
-//    });
-// };
+  db.Post.findOne({ where: { id: id }})
+    .then((post) => {
+      if (!post) {
+        return res.status(404).json({ error: "Post non trouvé" });
+      }
+      post
+        .destroy()
+        .then(() => {
+          res.status(200).json({ message: "Post supprimé avec SUCCES !" });
+        })
+        .catch((error) => {
+          res.status(400).json({ error });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};

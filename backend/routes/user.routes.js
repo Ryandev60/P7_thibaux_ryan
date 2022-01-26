@@ -1,14 +1,17 @@
 const auth = require("../middleware/auth.js");
-const db = require('../models');
+const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/user.controllers.js");
 
-module.exports = (app) => {
-  const userController = require("../controllers/user.controllers.js");
+// Création d'un compte
+router.post("/signup", userController.signup);
 
-  var router = require("express").Router();
+// Connexion
+router.post("/login", userController.login);
 
-  router.post("/signup", userController.signup);
-  router.post("/login", userController.login);
-  router.delete("/delete/:id", auth, userController.deleteUser);
+//Supression
+router.delete("/delete/:id", auth, userController.deleteUser);
 
-  app.use("/api/user", router);
-};
+// Exportation des routes
+module.exports = router;
+
