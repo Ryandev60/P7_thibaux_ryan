@@ -12,6 +12,7 @@ exports.signup = (req, res) => {
       password: hash,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      avatar: `${req.protocol}://${req.get('host')}/images/user-solid.svg`,
     }; // Sauvegarder un utilisateur dans la FB
     db.User.create(user)
       .then(() => {
@@ -63,13 +64,13 @@ exports.login = (req, res, next) => {
 };
 
 // Suprimer un utilisateur
-exports.deleteUser = (req, res) => {
-  const id = req.params.id;
+exports.delete = (req, res) => {
+  const id = req.query.id;
   User.destroy({
     where: { id: id },
   })
     .then(() => {
-      if (id == req.params.id) {
+      if (id == req.query.id) {
         res.status(201).send({
           message: "Utlisateur supprimé avec succés",
         });

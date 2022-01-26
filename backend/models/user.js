@@ -39,6 +39,9 @@ defaultValue: 0
         notEmpty: true,
       },
     },
+    avatar: {
+      type: DataTypes.STRING,
+    }
   });
 
 

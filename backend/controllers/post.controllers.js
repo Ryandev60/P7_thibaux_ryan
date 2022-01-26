@@ -4,22 +4,27 @@ const fs = require("fs");
 // Créé un Post
 
 exports.create = (req, res) => {
-  const newPost = {
-    title: req.body.title,
-    content: req.body.content,
-    creatorId: req.body.creatorId,
-  };
-  console.log(newPost);
+  if (req.body.content === "" && !req.file) {
+    throw err;
+  }
+  console.log(req.body);
+  const newPost = req.file
+    ? {
+        ...req.body,
+        attachment: `${req.protocol}://${req.get("host")}/images/${
+          // Indiqué l'URL de l'images
+          req.file.filename
+        }`,
+      }
+    : {
+        ...req.body,
+      };
   db.Post.create(newPost)
     .then(() => {
-      res.status(201).send({
-        message: "Le post a été crée", ////////////////////
-      });
+      res.status(201).json({ message: "Le post a bien été créé" });
     })
-    .catch((err) => {
-      res.status(400).send({
-        message: "Le post n'a pas pu être créé", ////////////////////
-      });
+    .catch(() => {
+      res.status(400).json({ error: "Le post n'a pas pu être créé" });
     });
 };
 
@@ -30,11 +35,11 @@ exports.getAll = (req, res) => {
     include: [
       {
         model: db.User,
-        attributes: ["firstName", "lastName"],
+        attributes: ["firstName", "lastName", "avatar"],
       },
       {
-        model: db.comment,
-        attributes: ["creatorId"]
+        model: db.Comment,
+        attributes: ["postId", "content"],
       },
     ],
     order: [["createdAt", "DESC"]],
@@ -46,18 +51,17 @@ exports.getAll = (req, res) => {
 // Supprimer un post
 
 exports.delete = (req, res) => {
-  const id = req.params.id;
+  const id = req.query.id;
   console.log(id);
 
-  db.Post.findOne({ where: { id: id }})
+  db.Post.findOne({ where: { id: id } })
     .then((post) => {
       if (!post) {
-        return res.status(404).json({ error: "Post non trouvé" });
+        return res.status(404).json({ error: "Le post n'a pas été trouver" });
       }
-      post
-        .destroy()
+      post.destroy()
         .then(() => {
-          res.status(200).json({ message: "Post supprimé avec SUCCES !" });
+          res.status(200).json({ message: "Le post a bien été supprimmer" });
         })
         .catch((error) => {
           res.status(400).json({ error });

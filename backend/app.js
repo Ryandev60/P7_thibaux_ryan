@@ -19,9 +19,9 @@ app.use(
 //On dit à l'application express de servir le dossier images
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.use("", postRoutes);
-app.use("", userRoutes);
-app.use("", commentRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/comments", commentRoutes);
 
 
 db.sequelize.sync();
