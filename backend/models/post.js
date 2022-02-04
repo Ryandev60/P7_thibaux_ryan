@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // Envoi de l'id du Post
     Post.hasMany(models.Comment, {
+     onDelete: 'cascade',
       foreignKey: "postId",
     });
   };

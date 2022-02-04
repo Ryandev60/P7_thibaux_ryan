@@ -1,14 +1,22 @@
-import React from 'react';
-import {BrowserRouter, Routes, Route} from "react-router-dom"
-import Sign from './pages/Sign';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from './Pages/Home'
+import Login from "./Pages/Login";
+import ErrorPage from "./Pages/ErrorPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
+    {/* <nav>
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/profile">Profile</Link>
+    </nav> */}
       <Routes>
-        <Route path="/connexion" exact element={<Sign/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

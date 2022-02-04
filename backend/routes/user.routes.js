@@ -10,7 +10,7 @@ router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 
 //Supression
-router.delete("/delete/:id", auth, userController.delete);
+router.delete("/:id", userController.delete);
 
 // Exportation des routes
 module.exports = router;

@@ -59,7 +59,8 @@ exports.delete = (req, res) => {
       if (!post) {
         return res.status(404).json({ error: "Le post n'a pas été trouver" });
       }
-      post.destroy()
+      post
+        .destroy()
         .then(() => {
           res.status(200).json({ message: "Le post a bien été supprimmer" });
         })

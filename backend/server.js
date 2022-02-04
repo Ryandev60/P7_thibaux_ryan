@@ -6,6 +6,7 @@ const http = require('http');
 // Importation de notre fichier app.js
 const app = require('./app');
 
+
 // La fonction normalizePort renvoie un port valide,
 //qu'il soit fourni sous la forme d'un numéro ou d'une chaîne ;
 
@@ -20,9 +21,9 @@ const normalizePort = val => {
  }
  return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '5000');
 
-app.set('port', process.env.PORT || 3000); // L'application express va tourner sur le port 3000
+app.set('port', process.env.PORT || 5000); // L'application express va tourner sur le port 5000
 
 // La fonction errorHandler  recherche les différentes erreurs et 
 //les gère de manière appropriée. Elle est ensuite enregistrée dans le serveur
@@ -60,5 +61,5 @@ server.on('listening', () => {
 });
 
 // On dit au serveur sur quelle adresse écouter,si la plateforme de déploiement propose un port
-// par défaut ce sera lui sinon se sera le port 3000
+// par défaut ce sera lui sinon se sera le port 5000
 server.listen(port);

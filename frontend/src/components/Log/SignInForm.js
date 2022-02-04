@@ -1,52 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
+import axios from "axios";
 
-const SignInForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default class SignInForm extends React.Component {
 
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
+  render() {
    
-  };
-  return (
-    <div className="center">
-      <div className="signinform">
-        <form action="" onSubmit={handleLogin} id="sign-up-form">
-          <label htmlFor="email">Email</label>
-          <br />
-          <input
-            type="text"
-            name="email"
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <div className="email error"></div>
-          <br />
-          <label htmlFor="password error">Mot de passe</label>
-          <br />
-          <input
-            type="password"
-            name="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
+    return (
+      <div className="form">
+        <form action="">
+          <label htmlFor="">Email</label>
+          <input type="text" name="email"/>
+          <label htmlFor="">Mot de passe</label>
+          <input type="password" name="password"/>
           <div className="password error"></div>
-          <br />
-          <div className="sign">
-            {" "}
-            <input type="submit" value="Se connecter" />
-            <br />
-            <button>S'inscrire</button>
-
-          </div>
+          <input type="submit" value="Se connecter" />
         </form>
       </div>
-    </div>
-  );
-};
-
-export default SignInForm;
+    );
+  }
+}

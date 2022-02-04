@@ -1,14 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
-   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  admin : {
-type: DataTypes.BOOLEAN,
-defaultValue: 0
-  },
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0,
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -41,22 +41,23 @@ defaultValue: 0
     },
     avatar: {
       type: DataTypes.STRING,
-    }
+    },
   });
-
 
   // Association
-  User.associate = models => {
+  User.associate = (models) => {
     //Envoi de l'id user avec Post
-   User.hasMany(models.Post, {
-     foreignKey: 'userId'
-   });
+    User.hasMany(models.Post, {
+      onDelete: "cascade",
+      foreignKey: "userId",
+    });
 
-   // Envoi de l'id user avec Comment
-   User.hasMany(models.Comment, {
-    foreignKey: 'userId'
-  });
- }
-  
+    // Envoi de l'id user avec Comment
+    User.hasMany(models.Comment, {
+      onDelete: "cascade",
+      foreignKey: "userId",
+    });
+  };
+
   return User;
 };

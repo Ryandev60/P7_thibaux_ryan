@@ -1,5 +1,30 @@
 import React from "react";
-import axios from "axios";
+import SignInForm from "../components/Log/SignInForm";
+import SignUpForm from "../components/Log/SignUpForm";
+import Navbar from "../components/Navbar";
+
+export default class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      log: true,
+    };
+  console.log(SignUpForm);
+  }
+
+  
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <SignUpForm />
+        <SignInForm />
+      </div>
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////////
 
 export default class SignUpForm extends React.Component {
   constructor(props) {
@@ -14,6 +39,7 @@ export default class SignUpForm extends React.Component {
 
  handleLogin(e) {
     e.preventDefault();
+    console.log(this.state);
     axios({
       method: "post",
       headers: {
@@ -59,3 +85,4 @@ export default class SignUpForm extends React.Component {
     );
   }
 }
+

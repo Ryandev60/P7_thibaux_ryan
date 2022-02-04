@@ -1,0 +1,23 @@
+.containerswitchbutton {
+
+background-color: yellow;
+display: flex;
+justify-content: center;
+align-content: center;
+}
+
+
+
+
+.switchbutton {
+ background-color: $color-1;
+ color: #ffff;
+ font-size: 20px;
+ border-radius: 15px;
+ padding: 8px 8px 30px 8px;
+ display: flex;
+ justify-content: center;
+ align-content: center;
+ height: 30px;
+ margin-top: 50px;
+}

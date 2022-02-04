@@ -8,7 +8,7 @@ router.get("/", commentController.findAll);
 router.post("/", commentController.create);
 // router.get("/:id", commentController.findOne);
 // router.put("/:id", commentController.update);
-// router.delete("/:id", commentController.delete);
+router.delete("/:id", commentController.delete);
 
 module.exports = router;
 

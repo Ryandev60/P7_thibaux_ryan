@@ -12,7 +12,7 @@ exports.signup = (req, res) => {
       password: hash,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      avatar: `${req.protocol}://${req.get('host')}/images/user-solid.svg`,
+      avatar: `${req.protocol}://${req.get("host")}/images/user-solid.svg`,
     }; // Sauvegarder un utilisateur dans la FB
     db.User.create(user)
       .then(() => {
@@ -30,7 +30,8 @@ exports.signup = (req, res) => {
 
 // Connexion utlisateur
 exports.login = (req, res, next) => {
-  User.findOne({
+  
+  db.User.findOne({
     where: { email: req.body.email },
   }) // On cherche si l'email rentré par l'utilisateur correspond à un email dans la DB
     .then((user) => {
@@ -45,7 +46,6 @@ exports.login = (req, res, next) => {
             // Si ce n'est pas valable
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           } // Si c'est valable
-          console.log("hello");
           // On renvoie un status 200 avec un token encodé
           res.status(200).json({
             userId: user.id,
@@ -66,19 +66,18 @@ exports.login = (req, res, next) => {
 // Suprimer un utilisateur
 exports.delete = (req, res) => {
   const id = req.query.id;
-  User.destroy({
+
+  db.User.destroy({
     where: { id: id },
   })
     .then(() => {
-      if (id == req.query.id) {
-        res.status(201).send({
-          message: "Utlisateur supprimé avec succés",
-        });
-      }
+      res.status(201).send({
+        message: "Utlisateur supprimé avec succés",
+      });
     })
     .catch((err) => {
       res.status(400).send({
-        message: "Requête non autorisés",
+        err,
       });
     });
 };
