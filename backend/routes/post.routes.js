@@ -8,7 +8,7 @@ const multer = require("../middleware/multer-config");
 router.get("/", postController.getAll);
 
 // Créé un post
-router.post("/", postController.create);
+router.post("/create", postController.create);
 
 // Supprimer un post
 router.delete("/:id", postController.delete);

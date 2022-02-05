@@ -5,8 +5,7 @@ export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
-  const handleLogin =  (e) => { 
+  const handleLogin = (e) => {
     e.preventDefault();
 
     const emailError = document.getElementsByClassName("email");
@@ -22,23 +21,32 @@ export default function SignInForm() {
         email,
         password,
       },
-    }).then((res) => console.log(res))
-    .catch(console.log("slt"))
+    })
+      .then((res) => console.log(res))
+      .catch(console.log("slt"));
+  };
 
-  }
+  return (
+    <div className="form">
+      <form action="" onSubmit={handleLogin}>
+        <img src="./img/logowhite.png" alt="" />
 
-    return (
-      <div className="form">
-        <form action="" onSubmit={handleLogin}>
-          <label htmlFor="">Email</label>
-          <input type="text" name="email" onChange={(e) => setEmail(e.target.value)}/>
-          <div className="password error"></div>
-          <label htmlFor="">Mot de passe</label>
-          <input type="password" name="password" onChange={(e) => setPassword(e.target.value)}/>
-          <div className="password error"></div>
-          <input type="submit" value="Se connecter" />
-        </form>
-      </div>
-    );
-  
+        <label htmlFor="">Email</label>
+        <input
+          type="text"
+          name="email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <div className="password error"></div>
+        <label htmlFor="">Mot de passe</label>
+        <input
+          type="password"
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <div className="password error"></div>
+        <input type="submit" value="Se connecter" />
+      </form>
+    </div>
+  );
 }

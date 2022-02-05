@@ -1,0 +1,42 @@
+.containerpost {
+ margin-top: 80px;
+ display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.postspace {
+ background-color: $color-1;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 75%;
+}
+.createpost {
+ margin: 10px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ width: 95%;
+}
+
+.createcontent {
+ width: 80%;
+}
+
+.containericon {
+ width: 80%;
+ display: flex;
+ justify-content: flex-end;
+}
+
+
+.icon {
+ margin: 8px;
+ color: $white;
+}
+
+.news {
+ background-color: $color-1;
+}

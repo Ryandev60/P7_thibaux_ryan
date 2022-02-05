@@ -28,10 +28,18 @@ body {
  font-family: 'Roboto', sans-serif
 }
 .error {
+display: flex;
+justify-content: center;
+align-items: center;
  color: red;
  font-weight: bold;
+ height: 26px;
 }
 .success {
  color: green;
  font-weight: bold;
+}
+
+textarea {
+  resize: none;
 }

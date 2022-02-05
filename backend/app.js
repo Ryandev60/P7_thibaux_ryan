@@ -4,6 +4,7 @@ const path = require("path");
 const postRoutes = require("./routes/post.routes");
 const userRoutes = require("./routes/user.routes");
 const commentRoutes = require("./routes/comment.routes");
+const cors = require ('cors');
 require('dotenv').config();
 
 
@@ -16,19 +17,8 @@ app.use(
   })
 );
 
-// Ajout de headers à l'objet res pour permettre à l'application d'accéder à l'API
-app.use((req, res, next) => { // On l'applique sur toutes les routes
-  res.setHeader("Access-Control-Allow-Origin", "*"); // On Autorise tout le monde à acceder à notre API
-  res.setHeader( // On donne l'autorisation de pouvoir utiliser certains headers sur response
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader( //  On donne l'autorisation de pouvoir utiliser certaines méthodes
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next(); // On passe l'éxécution au middleware suivant
-});
+
+app.use(cors());
 
 //On dit à l'application express de servir le dossier images
 app.use("/images", express.static(path.join(__dirname, "images")));

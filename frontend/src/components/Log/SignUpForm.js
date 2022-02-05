@@ -22,7 +22,6 @@ export default function SignUpForm() {
     );
     const termsError = document.querySelector(".terms.error");
 
-    
     passwordConfirmError.innerHTML = "";
     termsError.innerHTML = "";
 
@@ -50,9 +49,11 @@ export default function SignUpForm() {
         },
       })
         .then(() => {
-          console.log('slt');
+          console.log("slt");
         })
-        .catch((error) => {throw error });
+        .catch((error) => {
+          throw error;
+        });
     }
   };
   return (
@@ -68,6 +69,7 @@ export default function SignUpForm() {
       ) : (
         <div className="form signup">
           <form action="" onSubmit={handleRegister}>
+            <img src="./img/logowhite.png" alt="" />
             <label htmlFor="">Email</label>
             <input type="text" onChange={(e) => setEmail(e.target.value)} />
             <div className="email error"></div>
@@ -76,7 +78,7 @@ export default function SignUpForm() {
             <div className="firstname error"></div>
             <label htmlFor="">Nom</label>
             <input type="text" onChange={(e) => setLastName(e.target.value)} />
-            <div className="lastname-error"></div>
+            <div className="lastname error">error</div>
             <label htmlFor="">Mot de passe</label>
             <input
               type="password"
@@ -89,7 +91,7 @@ export default function SignUpForm() {
               name="password-confirm"
               onChange={(e) => setControlPassword(e.target.value)}
             />{" "}
-            <div className="password-confirm error"></div>
+            <div className="password-confirm error">error</div>
             <div className="terms">
               <input type="checkbox" id="terms" />
               <label htmlFor="terms">

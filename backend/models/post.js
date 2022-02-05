@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define("Post", {
-    content: {
+    postContent: {
       type: DataTypes.STRING,
       allownull: false,
       validate: {
