@@ -1,38 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import SignInForm from "../components/Log/SignInForm";
 import SignUpForm from "../components/Log/SignUpForm";
 import Navbar from "../components/Navbar";
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSwitchButton = this.handleSwitchButton.bind(this);
-    this.state = { isLoggedIn: false };
+export default function Login() {
+  const [isLog, setIsLog] = useState(true)
+
+  const handleChange = () => {
+    setIsLog(!isLog)
   }
 
-  handleSwitchButton() {
-    this.setState({ isLoggedIn: !this.state.isLoggedIn });
-  }
-
-  Greeting(props) {
-    const isLoggedIn = props.isLoggedIn;
-
-    if (isLoggedIn) {
+  const Greeting = () => {
+    <div className="salut">salut</div>
+    if (isLog) {
       return <SignUpForm />;
     }
     return <SignInForm />;
   }
-  render() {
+  
     return (
       <div>
         <Navbar />
-        <this.Greeting isLoggedIn={this.state.isLoggedIn} />
+        <Greeting />
         <div className="containerswitchbutton">
-        <button className="switchbutton" onClick={this.handleSwitchButton}>
-          {this.state.isLoggedIn ? "Connexion" : " Inscription"}
+        <button className="switchbutton" onClick={handleChange}>
+          {isLog ? "Connexion" : " Inscription"}
         </button>
         </div>
       </div>
     );
-  }
 }

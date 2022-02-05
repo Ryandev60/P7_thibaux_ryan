@@ -1,7 +1,7 @@
 .form {
  position: absolute;
  top: calc(50% - 100px);
- left: calc(50% - 151px);
+ left: calc(50% - 133px);
  
 
  form {
@@ -13,7 +13,7 @@
   color: white;
   padding: 20px 20px 10px 20px;
   border-radius: 20px;
-  font-size: 20px;
+  font-size: 16px;
 
   label {
    margin-bottom: 8px;
@@ -22,14 +22,13 @@
   input {
    margin-bottom: 1rem;
    border-radius: 20px;
-   font-size: 20px;
-   height: 30px;
+   font-size: 16px;
    padding: 5px;
    background-color: #ffff;
   }
 
   input[type="button"], input[type="submit"] {
-   padding: 8px 8px 30px 8px;
+   padding: 6px;
    transition: 0.2s;
    cursor: pointer;
 
@@ -48,6 +47,13 @@
 .signup {
  position: absolute;
  top: calc(50% - 200px);
+}
+
+.terms {
+ display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 14px;
 }
 
 

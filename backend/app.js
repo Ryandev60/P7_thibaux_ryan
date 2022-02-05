@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-
 const postRoutes = require("./routes/post.routes");
 const userRoutes = require("./routes/user.routes");
 const commentRoutes = require("./routes/comment.routes");
+require('dotenv').config();
 
 
 const db = require("./models");
