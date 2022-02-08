@@ -22,8 +22,12 @@ export default function SignInForm() {
         password,
       },
     })
-      .then((res) => console.log(res))
-      .catch(console.log("slt"));
+    .then((res) => {
+      //on stocke le token dans le localstorage
+      localStorage.setItem('user', JSON.stringify(res.data.token));
+      console.log(localStorage.getItem('user'));
+      window.location.assign('/');
+    })
   };
 
   return (

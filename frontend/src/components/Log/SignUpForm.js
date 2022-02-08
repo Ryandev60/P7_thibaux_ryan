@@ -32,27 +32,26 @@ export default function SignUpForm() {
       }
 
       if (!terms.checked) {
-        termsError.innerHTML = "Veuillez valider les condtions générales";
+        termsError.innerHTML = "Valider les conditions générales";
       }
     } else {
-      axios({
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        url: "http://localhost:5000/api/users/signup",
-        data: {
+      axios
+        .post("http://localhost:5000/api/users/signup", {
           email,
           password,
           firstName,
           lastName,
-        },
-      })
-        .then(() => {
-          console.log("slt");
+        })
+        .then((res) => {
+          setFormSubmit(true)
         })
         .catch((error) => {
-          throw error;
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            emailError.innerHTML = error.response.data.message
+          } 
         });
     }
   };

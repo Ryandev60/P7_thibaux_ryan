@@ -7,7 +7,9 @@ height: 100vh;
 
 .form {
  
-
+display: flex;
+justify-content: center;
+align-items: center;
  img {
   display: flex;
   width: 150px;

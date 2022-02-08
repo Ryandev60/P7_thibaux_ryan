@@ -5,7 +5,9 @@ require("dotenv").config();
 
 // Crée et sauvegarder un user
 exports.signup = (req, res) => {
-  // Validation de la requête
+  
+
+
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = {
       email: req.body.email,
@@ -21,7 +23,7 @@ exports.signup = (req, res) => {
         });
       })
       .catch((err) => {
-        res.status(400).send({
+        res.status(401).send({
           message: "L'utilisateur n'a pas pu être créé", ////////////////////
         });
       });

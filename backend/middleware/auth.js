@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // Paramétrage du token
 module.exports = (req, res, next) => {
  try {
-  const token = req.headers.authorization.split(' ')[1]; // Récupération du token dans le header authorization sans "Bearer"
+  const token = localStorage.getItem('user')
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET); // On décode le token grâce à la clé secréte
   const userId = decodedToken.userId; // On récupére le userId qui est dans le token
   req.auth = { userId: userId }; // 

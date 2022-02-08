@@ -1,42 +1,113 @@
 .containerpost {
- margin-top: 80px;
- display: flex;
-justify-content: center;
-align-items: center;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .postspace {
- background-color: $color-1;
-display: flex;
-justify-content: center;
-align-items: center;
-width: 75%;
+  background-color: $color-1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 70%;
+  border-radius: 15px
 }
 .createpost {
- margin: 10px;
- display: flex;
- flex-direction: column;
- justify-content: center;
- align-items: center;
- width: 95%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+
+  textarea {
+    padding: 2px;
+    display: flex;
+  }
+}
+
+.avatartextarea {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }
 
 .createcontent {
- width: 80%;
+  margin-top: 10px;
+  width: 80%;
 }
 
 .containericon {
- width: 80%;
- display: flex;
- justify-content: flex-end;
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
 }
 
-
 .icon {
- margin: 8px;
- color: $white;
+  margin: 8px;
+  color: $white;
+  cursor: pointer;
 }
 
 .news {
- background-color: $color-1;
+  background-color: $color-1;
+  width: 95%;
+}
+
+.post {
+  background-color: $white;
+  margin-bottom: 10px;
+}
+
+.postinfo {
+  padding: 5px;
+  display: flex;
+
+  p {
+    margin-left: 8px;
+  }
+}
+
+.postcontent {
+ padding: 4px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid $grey;
+}
+
+.numberlikecomment {
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+  }
+  border-top: 1px solid $grey;
+  border-bottom: 1px solid $grey;
+  .icon {
+    color: $color-1;
+  }
+}
+
+.likecomment {
+  ul {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .icon {
+    color: $grey;
+  }
 }
