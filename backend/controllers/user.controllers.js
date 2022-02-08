@@ -5,29 +5,44 @@ require("dotenv").config();
 
 // Crée et sauvegarder un user
 exports.signup = (req, res) => {
-  
+  db.User.findOne({
+    where: { email: req.body.email },
+  })
+    .then((user) => {
+      if (!user ) {
+        bcrypt.hash(req.body.password, 10).then((hash) => {
+          const user = {
+            email: req.body.email,
+            password: hash,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            avatar: `${req.protocol}://${req.get(
+              "host"
+            )}/images/user-solid.svg`,
+          };
 
-
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = {
-      email: req.body.email,
-      password: hash,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      avatar: `${req.protocol}://${req.get("host")}/images/user-solid.svg`,
-    }; // Sauvegarder un utilisateur dans la FB
-    db.User.create(user)
-      .then(() => {
-        res.status(201).send({
-          message: "L'utilisateur a été créé", ////////////////////
+          // Sauvegarder un utilisateur dans la FB
+          db.User.create(user)
+            .then(() => {
+              res.status(201).send({
+                message: "L'utilisateur a été créé", ////////////////////
+              });
+            })
+            .catch(() => {
+              res.send({
+                message: "L'utilisateur n'a pas pu être créé", ////////////////////
+              });
+            });
         });
-      })
-      .catch((err) => {
+      } else {
         res.status(401).send({
-          message: "L'utilisateur n'a pas pu être créé", ////////////////////
-        });
-      });
-  });
+          message: "Email déja existant"
+        })
+      }
+    })
+    .catch((err) => {
+      res.status(401).send({ err });
+    });
 };
 
 // Connexion utlisateur

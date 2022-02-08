@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import SignInForm from "./SignInForm";
+import { validEmail, validPassword, validName } from "../../utils/regexp";
 
 export default function SignUpForm() {
   const [formSubmit, setFormSubmit] = useState(false);
@@ -9,32 +10,31 @@ export default function SignUpForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [controlPassword, setControlPassword] = useState("");
+  const testEmail = validEmail.test(email);
+  const testFirstName = validName.test(firstName);
+  const testLastName = validName.test(lastName);
+  const testPassword = validPassword.test(password);
 
   const handleRegister = (e) => {
     e.preventDefault();
 
-    const terms = document.getElementById("terms");
-    const pseudoError = document.querySelector(".pseudo.error");
     const emailError = document.querySelector(".email.error");
+    const firstNameError = document.querySelector(".firstname.error");
+    const lastNameError = document.querySelector(".lastname.error");
     const passwordError = document.querySelector(".password.error");
     const passwordConfirmError = document.querySelector(
       ".password-confirm.error"
     );
+    const terms = document.getElementById("terms");
     const termsError = document.querySelector(".terms.error");
-
-    passwordConfirmError.innerHTML = "";
-    termsError.innerHTML = "";
-
-    if (password !== controlPassword || !terms.checked) {
-      if (password !== controlPassword) {
-        passwordConfirmError.innerHTML =
-          "Les mots de passe ne correspondent pas";
-      }
-
-      if (!terms.checked) {
-        termsError.innerHTML = "Valider les conditions générales";
-      }
-    } else {
+    if (
+      password === controlPassword &&
+      terms.checked &&
+      testEmail &&
+      testFirstName &&
+      testLastName &&
+      testPassword
+    ) {
       axios
         .post("http://localhost:5000/api/users/signup", {
           email,
@@ -42,28 +42,62 @@ export default function SignUpForm() {
           firstName,
           lastName,
         })
-        .then((res) => {
-          setFormSubmit(true)
+        .then(() => {
+          setFormSubmit(true);
         })
         .catch((error) => {
+          console.log("51 Signup");
           if (error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
-            emailError.innerHTML = error.response.data.message
-          } 
+            emailError.innerHTML = error.response.data.message;
+          }
         });
+    } else {
+      if (!testEmail) {
+        emailError.innerHTML = "Veuillez rentrer un email correct";
+      } else {
+        emailError.innerHTML = "";
+      }
+      if (!testFirstName) {
+        firstNameError.innerHTML = "Veuillez rentrer un prénom correct";
+      } else {
+        firstNameError.innerHTML = "";
+      }
+      if (!testLastName) {
+        lastNameError.innerHTML = "Veuillez rentrer un nom correct";
+      } else {
+        lastNameError.innerHTML = "";
+      }
+      if (!testPassword) {
+        passwordError.innerHTML =
+          "Doit contenir au moins 8 caractères dont une majuscules et un caractères spécial";
+        console.log(password);
+      } else {
+        passwordError.innerHTML = "";
+      }
+      if (password !== controlPassword) {
+        passwordConfirmError.innerHTML =
+          "Les mots de passe ne correspondent pas";
+      } else {
+        passwordConfirmError.innerHTML = "";
+      }
+      if (!terms.checked) {
+        termsError.innerHTML = "Valider les conditions générales";
+      } else {
+        termsError.innerHTML = "";
+      }
     }
   };
   return (
     <>
       {formSubmit ? (
         <>
-          <SignInForm />
           <span></span>
-          <h4 className="sucess">
-            Enregistrement réussi veuillez vous connecter
-          </h4>
+          <p className="welcome sucess">
+            Bienvenue {firstName} {lastName} voulez-vous vous  connectez  ? 
+          </p>
         </>
       ) : (
         <div className="form signup">
@@ -77,7 +111,7 @@ export default function SignUpForm() {
             <div className="firstname error"></div>
             <label htmlFor="">Nom</label>
             <input type="text" onChange={(e) => setLastName(e.target.value)} />
-            <div className="lastname error">error</div>
+            <div className="lastname error"></div>
             <label htmlFor="">Mot de passe</label>
             <input
               type="password"
@@ -90,7 +124,7 @@ export default function SignUpForm() {
               name="password-confirm"
               onChange={(e) => setControlPassword(e.target.value)}
             />{" "}
-            <div className="password-confirm error">error</div>
+            <div className="password-confirm error"></div>
             <div className="terms">
               <input type="checkbox" id="terms" />
               <label htmlFor="terms">

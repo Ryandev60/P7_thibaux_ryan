@@ -40,6 +40,7 @@ export default function Post() {
 
   
   return (
+
     <div className="containerpost">
       <div className="postspace">
         <div className="createpost">
