@@ -7,22 +7,31 @@ import {
   faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 export default function Post() {
+  const test = document.querySelector(".createcontent");
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  if (!currentUser) {
+    window.location.assign("/login");
+  }
+  const currentUserdecoded = currentUser && jwt_decode(currentUser);
+  //
   const [newPostContent, setNewPostContent] = useState("");
   const [newPostAttachment, setNewPostAttachment] = useState("");
   const [data, setData] = useState([]);
-  const token = localStorage.getItem('user');
+  const [refresh, setRefresh] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("http://localhost:5000/api/posts");
-
-      setData(result.data);
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
     };
-    fetchData();
-  }, []);
-  console.log(data);
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   const handleCreatePost = () => {
     axios({
@@ -34,13 +43,27 @@ export default function Post() {
       data: {
         postContent: newPostContent,
         postAttachment: newPostAttachment,
+        userId: currentUserdecoded.userId,
       },
-    }).catch((error) => console.log(error.response));
+    })
+      .then(
+        setRefresh(!refresh),
+        test.value ? (test.value = "") : null,
+        setNewPostContent("")
+      )
+      .catch((error) => console.log(error.response));
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios("http://localhost:5000/api/posts/", {
+        headers: { Authorization: `Bearer ${currentUser}` },
+      });
+      setData(result.data);
+    };
+    fetchData();
+  }, [refresh]);
 
-  
   return (
-
     <div className="containerpost">
       <div className="postspace">
         <div className="createpost">
@@ -75,7 +98,7 @@ export default function Post() {
                     <p>
                       {item.User.firstName} {item.User.lastName}
                     </p>
-                    <p>{item.createdAt}</p>
+                    <p>{formatDate(item.createdAt)}</p>
                   </div>
                 </div>
                 <div>
@@ -110,6 +133,16 @@ export default function Post() {
                     </li>
                   </ul>
                 </div>
+                {item.Comments.map((comment) => (
+                  <Fragment key={comment.id}>
+                    <p>{item.User.firstName}</p>
+                    <ul>
+                      <li>{item.User.firstname}</li>
+                      <li>{comment.content}</li>
+                    </ul>
+                  </Fragment>
+                ))}
+                <div className="comment"></div>
               </div>
             </Fragment>
           ))}

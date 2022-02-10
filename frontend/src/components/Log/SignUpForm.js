@@ -48,10 +48,12 @@ export default function SignUpForm() {
         .catch((error) => {
           console.log("51 Signup");
           if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
             emailError.innerHTML = error.response.data.message;
+            firstNameError.innerHTML = "";
+            lastNameError.innerHTML = "";
+            passwordError.innerHTML = "";
+            passwordConfirmError.innerHTML = "";
+            termsError.innerHTML = "";
           }
         });
     } else {
@@ -96,7 +98,7 @@ export default function SignUpForm() {
         <>
           <span></span>
           <p className="welcome sucess">
-            Bienvenue {firstName} {lastName} voulez-vous vous  connectez  ? 
+            Bienvenue {firstName} {lastName} voulez-vous vous connectez ?
           </p>
         </>
       ) : (
@@ -117,7 +119,7 @@ export default function SignUpForm() {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="password error"></div>
+            <div className="password error"><span className="textpassword">Doit contenir 8 caractères dont une majuscule et un caractère spécial</span> </div>
             <label htmlFor="">Confirmer votre mot de passe</label>{" "}
             <input
               type="password"

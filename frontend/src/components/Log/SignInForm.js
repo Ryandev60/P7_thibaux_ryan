@@ -4,30 +4,34 @@ import axios from "axios";
 export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const emailError = document.getElementsByClassName("email");
+    const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
 
-    axios({
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      url: "http://localhost:5000/api/users/login",
-      data: {
+    axios
+      .post("http://localhost:5000/api/users/login", {
+        headers: {
+          "Content-Type": "application/json",
+        },
         email,
         password,
-      },
-    })
-    .then((res) => {
-      //on stocke le token dans le localstorage
-      localStorage.setItem('user', JSON.stringify(res.data.token));
-      console.log(localStorage.getItem('user'));
-      window.location.assign('/');
-    })
+      })
+      .then((res) => {
+        localStorage.setItem("user", JSON.stringify(res.data.token));
+        window.location.assign("/");
+        // localStorage.setItem('user', JSON.stringify(res.data.token));
+      })
+      .catch((error) => {
+        error.response.data.email
+          ? (emailError.innerHTML = error.response.data.email)
+          : (emailError.innerHTML = "");
+
+        error.response.data.password
+          ? (passwordError.innerHTML = error.response.data.password)
+          : (passwordError.innerHTML = "");
+      });
   };
 
   return (
@@ -41,7 +45,7 @@ export default function SignInForm() {
           name="email"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <div className="password error"></div>
+        <div className="email error"></div>
         <label htmlFor="">Mot de passe</label>
         <input
           type="password"

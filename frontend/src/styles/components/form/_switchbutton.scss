@@ -1,19 +1,23 @@
 .containerswitchbutton {
-display: flex;
-justify-content: center;
-align-content: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
 .switchbutton {
- background-color: $color-1;
- color: #ffff;
- font-size: 16px;
- border-radius: 15px;
- padding: 6px;
- display: flex;
- justify-content: center;
- align-content: center;
- margin-top: 10px;
- cursor: pointer;
- 
+  background-color: $color-1;
+  color: #ffff;
+  font-size: 16px;
+  border-radius: 15px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-top: 10px;
+  cursor: pointer;
+
+  @media #{$smartphone} {
+    position: absolute;
+    bottom: calc(5vh - 17px);
+  }
 }

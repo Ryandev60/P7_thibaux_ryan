@@ -25,7 +25,6 @@ exports.findAll = (req, res, next) => {
         attributes: ["firstName", "lastName"],
       },
     ],
-    where: { postId: req.query.id },
     order: [["createdAt", "DESC"]],
   })
     .then((comments) => {
@@ -42,7 +41,9 @@ exports.delete = (req, res) => {
   })
     .then((comment) => {
       if (!comment) {
-        return re.status(404).json({ error: "Le commentaire n'a pas été trouver" });
+        return re
+          .status(404)
+          .json({ error: "Le commentaire n'a pas été trouver" });
       }
 
       comment

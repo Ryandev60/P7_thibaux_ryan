@@ -35,11 +35,11 @@ exports.getAll = (req, res) => {
     include: [
       {
         model: db.User,
-        attributes: ["firstName", "lastName", "avatar"],
+        attributes: ["firstName", "lastName", "avatar", "id"],
       },
       {
         model: db.Comment,
-        attributes: ["postId", "content"],
+        attributes: ["postId", "content", "id", "userId"],
       },
     ],
     order: [["createdAt", "DESC"]],

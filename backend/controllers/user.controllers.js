@@ -9,7 +9,7 @@ exports.signup = (req, res) => {
     where: { email: req.body.email },
   })
     .then((user) => {
-      if (!user ) {
+      if (!user) {
         bcrypt.hash(req.body.password, 10).then((hash) => {
           const user = {
             email: req.body.email,
@@ -36,8 +36,8 @@ exports.signup = (req, res) => {
         });
       } else {
         res.status(401).send({
-          message: "Email déja existant"
-        })
+          message: "Email déja existant",
+        });
       }
     })
     .catch((err) => {
@@ -53,23 +53,21 @@ exports.login = (req, res, next) => {
     .then((user) => {
       if (!user) {
         // Si on ne trouve pas d'utilisateur on renvoi une erreur
-        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+        return res.status(401).json({ email: "Utilisateur non trouvé !" });
       }
       bcrypt
         .compare(req.body.password, user.password) // On comparer le mot de passe rentré par l'utilisateur avec le mot de passe correspondant hasher du dans la DB
         .then((valid) => {
-          console.log("valideee");
           if (!valid) {
             // Si ce n'est pas valable
-            return res.status(401).json({ error: "Mot de passe incorrect !" });
+            return res.status(401).json({ password: "Mot de passe incorrect !" });
           } // Si c'est valable
           // On renvoie un status 200 avec un token encodé
-          console.log("hello");
           res.status(200).json({
             userId: user.id,
-            userRole: user.admin,
+            admin: user.admin,
             token: jwt.sign(
-              { userId: user.id },
+              { userId: user.id, admin: user.admin },
               process.env.JWT_SECRET,
               { expiresIn: "24h" } // Durée de validité du token
             ),
