@@ -7,6 +7,7 @@ exports.create = (req, res) => {
   const newComment = {
     ...req.body,
   };
+  console.log(newComment);
 
   db.Comment.create(newComment)
     .then(() => {

@@ -5,12 +5,12 @@ const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
 
 // Récupérer tout les posts
-router.get("/", auth, postController.getAll);
+router.get("/", auth, multer, postController.getAll);
 
 // Créé un post
-router.post("/create", postController.create);
+router.post("/create",auth, multer, postController.create);
 
 // Supprimer un post
-router.delete("/:id", postController.delete);
+router.delete("/:id",auth, postController.delete);
 
 module.exports = router;

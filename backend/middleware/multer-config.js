@@ -1,13 +1,12 @@
+
 // Importation de multer pour l'introduction d'images
 const multer = require("multer");
 
 // Conversion du format d'images
 const MIME_TYPES = { 
-  'image/jpg': 'jpg',
-  'image/jpeg': 'jpg',
-  'image/png': 'png',
-  'image/svg': 'svg',
-  'image/gif': 'gif',
+  "image/jpg": "jpg",
+  "image/jpeg": "jpg",
+  "image/png": "png",
 };
 
 // Enregistrement dans le dossier images

@@ -39,7 +39,7 @@
   width: 100%;
 }
 
-.createcontent {
+.createpostcontent {
   margin-top: 10px;
   width: 80%;
 }
@@ -64,6 +64,8 @@
 .post {
   background-color: $white;
   margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 10px;
 }
 
 .postinfo {
@@ -104,6 +106,7 @@
   ul {
     display: flex;
     justify-content: space-around;
+    border-bottom: 1px solid $grey;
   }
 
   li {
@@ -115,3 +118,4 @@
     color: $grey;
   }
 }
+

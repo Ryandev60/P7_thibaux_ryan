@@ -12,6 +12,14 @@ router.post("/login", userController.login);
 //Supression
 router.delete("/:id", userController.delete);
 
+// Récupération d'un user
+
+router.get("/getone/:id",auth, userController.getOneUser)
+
+// Modification d'un user
+
+router.put("/modify/:id", auth, userController.updateUser)
+
 // Exportation des routes
 module.exports = router;
 

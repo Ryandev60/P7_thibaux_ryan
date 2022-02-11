@@ -1,0 +1,49 @@
+.commentspace {
+ 
+display: flex;
+flex-direction: column;
+ img {
+  width: 30px;
+  height: 30px;
+  border: solid 1px $grey;
+  border-radius: 50%;
+  margin-right: 4px;
+ }
+}
+
+.comment {
+ display: flex;
+ flex-direction: column;
+ margin: 4px;
+}
+
+.commentuser {
+ display: flex;
+}
+
+.commentdate {
+ font-size: 12px;
+}
+
+.commentnumber {
+ cursor: pointer;
+ &:hover {
+  border-bottom: 1px solid $color-1;
+ }
+}
+
+button {
+ color: black;
+ background-color: black;
+ width: 10px;
+ height: 10px;
+ cursor: pointer;
+}
+
+
+.iconcomment {
+ margin: 8px;
+  color: $color-1;
+  cursor: pointer;
+}
+

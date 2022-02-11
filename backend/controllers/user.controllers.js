@@ -96,3 +96,39 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+//on récupère un utilisateur
+exports.getOneUser = (req, res, next) => {
+  const id =  req.params.id
+  db.User
+    .findOne({ where: { id: id} })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé' });
+      }
+      res.status(200).json({ user });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
+//Mise à jour du user
+exports.updateUser = (req, res, next) => {
+   const firstName = req.body.firstName 
+   const id = req.params.id
+  console.log(firstName);
+  console.log(id);
+
+  if(firstName != 0) {
+    db.User
+    .update({ firstName }, { where: { id: id} })
+    .then(() => {
+      res.status(200).json({ message: 'User modifié avec SUCCES !' });
+    })
+    .catch(() => {
+      res.status(400).json({ error: 'ECHEC de la modification du post' });
+    });
+  }
+ 
+};

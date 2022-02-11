@@ -39,7 +39,11 @@ exports.getAll = (req, res) => {
       },
       {
         model: db.Comment,
-        attributes: ["postId", "content", "id", "userId"],
+        include: [
+          {
+            model: db.User,
+          },
+        ],
       },
     ],
     order: [["createdAt", "DESC"]],

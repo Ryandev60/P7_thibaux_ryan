@@ -1,13 +1,15 @@
 import React from "react";
-import Post from "../components/Post/Post";
 import Navbar from "../components/Navbar";
-function Home() {
+import Param from "../components/Profil/Param";
+
+export default function Profil() {
+
+ 
   return (
     <div>
     <Navbar />
-      <Post />{" "}
+      <Param />
+      Profil
     </div>
   );
 }
-
-export default Home;
