@@ -1,5 +1,4 @@
 const db = require("../models");
-const fs = require("fs");
 
 exports.create = (req, res) => {
   // on test si la requête contient un fichier

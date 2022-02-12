@@ -21,7 +21,7 @@ export default function Post() {
   if (!currentUser) {
     window.location.assign("/login");
   }
-  const currentUserdecoded = currentUser && jwt_decode(currentUser);
+  const currentUserDecoded = currentUser && jwt_decode(currentUser);
   const [refresh, setRefresh] = useState(false);
   const [firstName, setFirstname] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -30,8 +30,36 @@ export default function Post() {
   // Récupération informations Post
 
   const [newPostContent, setNewPostContent] = useState("");
-  const [newPostAttachment, setNewPostAttachment] = useState("");
   const [data, setData] = useState([]);
+
+  // Like
+
+  const [postLiked, setPostLiked] = useState(null);
+
+  useEffect(() => {
+    axios({
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${currentUser}`,
+      },
+      url: "http://localhost:5000/api/like/update",
+      data: {
+        userId: currentUserDecoded.userId,
+        postId: postLiked,
+      },
+    })
+      .then(setRefresh(!refresh), setPostLiked(null))
+      .catch((error) => console.log(error.response));
+  }, [postLiked]);
+
+  //Upload file
+
+  const [image, setImage] = useState(null);
+
+  const onFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   // Fonction pour convertir la date
 
@@ -52,7 +80,7 @@ export default function Post() {
     const fetchData = async () => {
       const result = await axios("http://localhost:5000/api/posts/", {
         headers: { Authorization: `Bearer ${currentUser}` },
-      });
+      }).catch((error) => console.log(error.response.data));
       setData(result.data);
     };
     fetchData();
@@ -63,10 +91,10 @@ export default function Post() {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
-        `http://localhost:5000/api/users/getone/${currentUserdecoded.userId}`,
+        `http://localhost:5000/api/users/getone/${currentUserDecoded.userId}`,
         {
           headers: { Authorization: `Bearer ${currentUser}` },
-          data: { id: currentUserdecoded.id },
+          data: { id: currentUserDecoded.id },
         }
       );
       setAvatar(result.data.user.avatar);
@@ -78,6 +106,10 @@ export default function Post() {
   // Fonction création d'un Post
 
   const handleCreatePost = () => {
+    let formData = new FormData();
+    formData.append("userId", currentUserDecoded.userId);
+    formData.append("postContent", newPostContent);
+    formData.append("image", image);
     axios({
       method: "post",
       headers: {
@@ -85,11 +117,7 @@ export default function Post() {
         Authorization: `Bearer ${currentUser}`,
       },
       url: "http://localhost:5000/api/posts/create",
-      data: {
-        postContent: newPostContent,
-        attachment: newPostAttachment,
-        userId: currentUserdecoded.userId,
-      },
+      data: formData,
     })
       .then(
         setRefresh(!refresh),
@@ -108,7 +136,11 @@ export default function Post() {
         <div className="createpost">
           <div className="avatartextarea">
             <div className="avatar">
-              <img src={avatar} alt="" />
+              <img
+                src={avatar}
+                alt="avatar"
+                onClick={() => window.location.assign("/setting")}
+              />
             </div>
             <textarea
               className="createpostcontent"
@@ -119,17 +151,20 @@ export default function Post() {
             ></textarea>
           </div>
           <div className="containericon">
-            <label htmlFor="file" className="label-file"></label>
+            <label htmlFor="file" className="labelfile">
+              <FontAwesomeIcon icon={faImage} className="icon">
+                {" "}
+              </FontAwesomeIcon>
+            </label>
             <input
               type="file"
-              name="file"
-              id="file-upload"
-              onChange={(e) => setNewPostAttachment(e.target.value)}
+              id="file"
+              name="image"
+              onChange={onFileChange}
+              className="white"
+              accept=".png, .jpg, .jpeg, .gif"
             />
-            <FontAwesomeIcon icon={faImage} className="icon">
-              {" "}
-              <input type="file" accept=".jpg" />
-            </FontAwesomeIcon>
+
             <FontAwesomeIcon
               icon={faPaperPlane}
               className="icon"
@@ -142,7 +177,14 @@ export default function Post() {
             <Fragment key={item.id}>
               <div key={item.id} className="post">
                 <div className="postinfo">
-                  <img src={item.User.avatar} alt="avatar" className="avatar" />
+                  <div className="avatar">
+                    <img
+                      src={item.User.avatar}
+                      alt="avatar"
+                      className=""
+                      onClick={() => window.location("/")}
+                    />
+                  </div>
                   <div className="userandtime">
                     <p>
                       {item.User.firstName} {item.User.lastName}
@@ -154,17 +196,23 @@ export default function Post() {
                   <p className="postcontent">{item.postContent}</p>
                 </div>
                 <div className="postimg">
-                  <p>Ici</p>
                   <img src={item.attachment} alt="" />
                 </div>
+
+                {/* Like et commentaires */}
+
                 <div className="numberlikecomment">
                   <ul>
-                    <li>
-                      <FontAwesomeIcon
-                        icon={faThumbsUp}
-                        className="icon"
-                      ></FontAwesomeIcon>
-                    </li>
+                    <ul>
+                      <li>
+                        <FontAwesomeIcon
+                          icon={faThumbsUp}
+                          className="icon"
+                        ></FontAwesomeIcon>
+                      </li>
+                      <li>{item.Likes.length}</li>
+                    </ul>
+
                     <li className="commentnumber">
                       {item.Comments.length}{" "}
                       {item.Comments.length > 1
@@ -179,8 +227,9 @@ export default function Post() {
                       <FontAwesomeIcon
                         icon={faThumbsUp}
                         className="icon"
+                        onClick={() => setPostLiked(item.id)}
                       ></FontAwesomeIcon>{" "}
-                      J'aime
+                      Aimer
                     </li>
                     <li>
                       <FontAwesomeIcon

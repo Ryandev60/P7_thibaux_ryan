@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// Crée et sauvegarder un user
+// Crée un utilisateur
 exports.signup = (req, res) => {
   db.User.findOne({
     where: { email: req.body.email },
@@ -60,7 +60,9 @@ exports.login = (req, res, next) => {
         .then((valid) => {
           if (!valid) {
             // Si ce n'est pas valable
-            return res.status(401).json({ password: "Mot de passe incorrect !" });
+            return res
+              .status(401)
+              .json({ password: "Mot de passe incorrect !" });
           } // Si c'est valable
           // On renvoie un status 200 avec un token encodé
           res.status(200).json({
@@ -99,12 +101,11 @@ exports.delete = (req, res) => {
 
 //on récupère un utilisateur
 exports.getOneUser = (req, res, next) => {
-  const id =  req.params.id
-  db.User
-    .findOne({ where: { id: id} })
+  const id = req.params.id;
+  db.User.findOne({ where: { id: id } })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        return res.status(404).json({ error: "Utilisateur non trouvé" });
       }
       res.status(200).json({ user });
     })
@@ -113,22 +114,125 @@ exports.getOneUser = (req, res, next) => {
     });
 };
 
-//Mise à jour du user
-exports.updateUser = (req, res, next) => {
-   const firstName = req.body.firstName 
-   const id = req.params.id
+// Mise à jour de l'avatar
+
+exports.updateAvatar = (req, res, next) => {
+  const id = req.params.id;
+  console.log(req.file);
+
+  const newPost = req.file
+    ? {
+        ...req.body,
+        avatar: `${req.protocol}://${req.get("host")}/images/${
+          // Indiqué l'URL de l'images
+          req.file.filename
+        }`,
+      }
+    : {
+        ...req.body,
+      };
+
+  db.User.update(newPost, { where: { id: id } })
+    .then(() => {
+      res.status(200).json({ message: "User modifié avec SUCCES !" });
+    })
+    .catch(() => {
+      res.status(400).json({ error: "ECHEC de la modification du post" });
+    });
+};
+
+//Mise à jour du prénom
+exports.updateFirstName = (req, res, next) => {
+  const firstName = req.body.firstName;
+  const id = req.params.id;
   console.log(firstName);
   console.log(id);
 
-  if(firstName != 0) {
-    db.User
-    .update({ firstName }, { where: { id: id} })
-    .then(() => {
-      res.status(200).json({ message: 'User modifié avec SUCCES !' });
-    })
-    .catch(() => {
-      res.status(400).json({ error: 'ECHEC de la modification du post' });
-    });
+  if (firstName != 0) {
+    db.User.update({ firstName }, { where: { id: id } })
+      .then(() => {
+        res.status(200).json({ message: "User modifié avec SUCCES !" });
+      })
+      .catch(() => {
+        res.status(400).json({ error: "ECHEC de la modification du post" });
+      });
   }
- 
+};
+
+//Mise à jour du nom
+
+exports.updateLastName = (req, res, next) => {
+  const lastName = req.body.lastName;
+  const id = req.params.id;
+
+  if (lastName != 0) {
+    db.User.update({ lastName }, { where: { id: id } })
+      .then(() => {
+        res.status(200).json({ message: "User modifié avec SUCCES !" });
+      })
+      .catch(() => {
+        res.status(400).json({ error: "ECHEC de la modification du post" });
+      });
+  }
+};
+
+//Mise à jour de l'email
+
+exports.updateEmail = (req, res, next) => {
+  const email = req.body.email;
+  const id = req.params.id;
+
+  if (email != 0) {
+    db.User.update({ email }, { where: { id: id } })
+      .then(() => {
+        res.status(200).json({ message: "User modifié avec SUCCES !" });
+      })
+      .catch(() => {
+        res.status(400).json({ error: "ECHEC de la modification du post" });
+      });
+  }
+};
+
+//Mise à jour du mot de passe
+
+exports.updatePassword = (req, res, next) => {
+  const id = req.params.id;
+  const newPassword = req.body.newPassword;
+  const currentPassword = req.body.currentPassword;
+
+  db.User.findOne({ where: { id: id } })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ error: "Utilisateur non enregistré" });
+      }
+      bcrypt
+        //on compare le hash du password
+        .compare(currentPassword, user.password)
+        .then((passwordOk) => {
+          if (!passwordOk) {
+            return res.status(401).json({ error: "Mot de passe incorrect" });
+          }
+          bcrypt
+            // on hash le mot de passe
+            .hash(newPassword, 10)
+            .then((hash) => {
+              db.User.update(
+                {
+                  password: hash,
+                },
+                { where: { id: id } }
+              ).then(() => {
+                res
+                  .status(200)
+                  .json({ message: "Mot de passe modifié avec succès" });
+              });
+            })
+            .catch((error) => {
+              res.status(400).json({ error });
+            });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
 };

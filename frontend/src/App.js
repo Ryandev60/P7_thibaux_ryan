@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from './Pages/Home'
 import Login from "./Pages/Login";
 import ErrorPage from "./Pages/ErrorPage";
-import Profil from "./Pages/Profil";
+import Setting from "./Pages/Setting";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
-        <Route path="/profil" element={<Profil />} />
+        <Route path="/setting" element={<Setting />} />
       </Routes>
     </Router>
   );

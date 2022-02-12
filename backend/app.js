@@ -4,6 +4,7 @@ const path = require("path");
 const postRoutes = require("./routes/post.routes");
 const userRoutes = require("./routes/user.routes");
 const commentRoutes = require("./routes/comment.routes");
+const likeRoutes = require("./routes/like.routes");
 const cors = require ('cors');
 require('dotenv').config();
 
@@ -37,6 +38,9 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/posts", postRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/like", likeRoutes);
+
+
 
 
 db.sequelize.sync();

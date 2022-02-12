@@ -1,6 +1,5 @@
 // Import
 
-
 import React from "react";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,15 +19,11 @@ export default function Comment(props) {
   const currentUserdecoded = currentUser && jwt_decode(currentUser);
   const [showComment, setShowComments] = useState(true);
   const [newCommentContent, setNewCommentContent] = useState("");
-  const [newCommentAttachment, setNewCommentAttachment] = useState("");
-  const contentCommentInnerHtml = document.querySelector(".createcommentcontent");
-  const [refresh, setRefresh] = useState(false)
+  const contentCommentInnerHtml = document.querySelector(
+    ".createcommentcontent"
+  );
 
-  useEffect(() => {
-    // Met à jour le titre du document via l’API du navigateur
-    document.title = `Vous avez cliqué 1 fois`;
-  });
- // Fonction affichage des commentaires
+  // Fonction affichage des commentaires
 
   const handleShowComment = () => {
     setShowComments(!showComment);
@@ -47,12 +42,14 @@ export default function Comment(props) {
       data: {
         content: newCommentContent,
         userId: currentUserdecoded.userId,
-        postId: props.postid
+        postId: props.postid,
       },
     })
       .then(
         props.setRefresh(!props.refresh),
-        contentCommentInnerHtml.value ? (contentCommentInnerHtml.value = "") : null,
+        contentCommentInnerHtml.value
+          ? (contentCommentInnerHtml.value = "")
+          : null,
         setNewCommentContent("")
       )
       .catch((error) => console.log(error.response));
@@ -77,7 +74,6 @@ export default function Comment(props) {
             <p>{comment.content}</p>
             <button onClick={handleCreateComment}></button>
           </div>
-          
         ))}
         {/* Créé un commentaire*/}
         <div className="createcomment">
@@ -110,11 +106,6 @@ export default function Comment(props) {
       </div>
     );
   } else {
-    return (
-      <div>
-        <button onClick={handleShowComment}></button>
-      </div>
-    );
+    return <div></div>;
   }
 }
-

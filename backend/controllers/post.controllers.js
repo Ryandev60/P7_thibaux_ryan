@@ -1,5 +1,4 @@
 const db = require("../models");
-const fs = require("fs");
 
 // Créé un Post
 
@@ -7,6 +6,7 @@ exports.create = (req, res) => {
   if (req.body.content === "" && !req.file) {
     throw err;
   }
+
   console.log(req.body);
   const newPost = req.file
     ? {
@@ -45,6 +45,10 @@ exports.getAll = (req, res) => {
           },
         ],
       },
+      {
+        model: db.Like,
+        attributes: ["userId"],
+      },
     ],
     order: [["createdAt", "DESC"]],
   })
@@ -76,3 +80,4 @@ exports.delete = (req, res) => {
       res.status(500).json({ error });
     });
 };
+

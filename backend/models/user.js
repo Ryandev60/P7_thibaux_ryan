@@ -46,18 +46,23 @@ module.exports = (sequelize, DataTypes) => {
 
   // Association
   User.associate = (models) => {
-    //Envoi de l'id user avec Post
+    // Post
     User.hasMany(models.Post, {
       onDelete: "cascade",
       foreignKey: "userId",
     });
 
-    // Envoi de l'id user avec Comment
+    // Comment
     User.hasMany(models.Comment, {
       onDelete: "cascade",
       foreignKey: "userId",
     });
-  };
 
+    // Like
+    User.hasMany(models.Like, {
+      onDelete: "cascade",
+      foreignKey: "userId",
+    });
+  };
   return User;
 };

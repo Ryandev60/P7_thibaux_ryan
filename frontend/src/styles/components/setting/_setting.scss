@@ -2,13 +2,16 @@
  display: flex;
  justify-content: center;
  align-items: center;
- height: 100vh;
+ height: 80vh;
 }
 
 .paramspace {
+ border-radius: 15px;
+ display: flex;
+ flex-direction: column;
  background-color: $color-1;
- width: 200px;
- height: 200px;
+ width: 400px;
+ height: 400px;
  p {
   color: $white;
  }
@@ -16,6 +19,7 @@
 
 .modify {
  display: flex;
+ margin: 8px;
  
  
  input {
@@ -25,7 +29,9 @@
 }
 
 .modifybutton {
+
  background-color: $white;
  width: fit-content;
  padding: 4px;
+ height: 20px;
 }
