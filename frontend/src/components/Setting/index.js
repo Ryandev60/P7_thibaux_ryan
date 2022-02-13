@@ -49,6 +49,24 @@ export default function Param() {
     setImage(e.target.files[0]);
   };
 
+  const handleUserDelete = () => {
+    if (window.confirm("Supprimer votre compte ? ")) {
+      axios({
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser}`,
+        },
+        url: `http://localhost:5000/api/users/delete/${currentUserdecoded.userId}`,
+        data: {
+          currentPassword,
+        },
+      })
+        .then(localStorage.clear(), window.location.assign("/login"))
+        .catch((error) => console.log(error.response));
+    }
+  };
+
   const handleUserAvatar = () => {
     let formData = new FormData();
     formData.append("image", image);
@@ -133,7 +151,7 @@ export default function Param() {
     <div className="containerparam">
       <div className="paramspace">
         <div className="modify">
-          <img src={avatar} alt="" />
+          <img src={avatar} alt="" className="avatar" />
           <label htmlFor="file">
             <FontAwesomeIcon icon={faImage} className="icon">
               {" "}
@@ -189,22 +207,29 @@ export default function Param() {
         </div>
         <div className="modify password">
           <p>Modifier votre mot de passe</p>
-          <label htmlFor="currentpassword">
-            <input
-              type="password"
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />
-          </label>
-          <label htmlFor="newpassword">
-            <input
-              type="password"
-              onChange={(e) => setModifyPassword(e.target.value)}
-            />
-          </label>
+          <label htmlFor="currentpassword">Mot de passe actuel</label>
+          <input
+            type="password"
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <label htmlFor="currentpassword">Nouveau mot de passe</label>
+          <input
+            type="password"
+            onChange={(e) => setModifyPassword(e.target.value)}
+          />
           <button className="modifybutton" onClick={handleUserPassword}>
             Valider
           </button>
         </div>
+        <label htmlFor="deleteuser">
+          <input
+            type="password"
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+        </label>
+        <button className="modifybutton" onClick={handleUserDelete}>
+          Valider
+        </button>
       </div>
     </div>
   );

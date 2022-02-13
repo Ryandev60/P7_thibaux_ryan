@@ -59,16 +59,16 @@ exports.getAll = (req, res) => {
 // Supprimer un post
 
 exports.delete = (req, res) => {
-  const id = req.query.id;
-  console.log(id);
+  const postId = req.params.id;
+  const userId = req.body.userId;
+  console.log(postId);
 
-  db.Post.findOne({ where: { id: id } })
+  db.Post.findOne({ where: { id: postId} })
     .then((post) => {
       if (!post) {
         return res.status(404).json({ error: "Le post n'a pas été trouver" });
       }
-      post
-        .destroy()
+      db.Post.destroy({ where: { id: postId} })
         .then(() => {
           res.status(200).json({ message: "Le post a bien été supprimmer" });
         })
@@ -80,4 +80,3 @@ exports.delete = (req, res) => {
       res.status(500).json({ error });
     });
 };
-

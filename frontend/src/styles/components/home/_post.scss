@@ -1,5 +1,5 @@
 .containerpost {
-  margin-top: 50px;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,15 +11,16 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 70%;
+  width: 60%;
   border-radius: 15px;
   @media #{$smartphone} {
     width: 100%;
     border-radius: 0px;
   }
+  
 }
 .createpost {
-  margin: 10px;
+  margin: 30px 10px 10px 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,8 +41,8 @@
 }
 
 .createpostcontent {
-  margin-top: 10px;
   width: 80%;
+  border-radius: 5px;
 }
 
 .containericon {
@@ -69,13 +70,16 @@
 }
 
 .postinfo {
-  padding: 5px;
+  padding: 8px;
   display: flex;
+  width: fit-content;
+  border-radius: 15px;
 
   p {
     margin-left: 8px;
   }
 }
+
 
 .postcontent {
  padding: 4px;
@@ -138,9 +142,12 @@
   }
 }
 
-input[type="file"]{
-display: none;
+.icon__delete__post {
+
+  cursor: pointer;
+  color: $color-1;
 }
+
 
 
 

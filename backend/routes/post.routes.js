@@ -11,6 +11,6 @@ router.get("/", auth, multer, postController.getAll);
 router.post("/create",auth, multer, postController.create);
 
 // Supprimer un post
-router.delete("/:id",auth, postController.delete);
+router.delete("/delete/:id",auth, postController.delete);
 
 module.exports = router;

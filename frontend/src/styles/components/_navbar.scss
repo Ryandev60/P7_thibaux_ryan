@@ -1,0 +1,17 @@
+.navbar {
+ width: 100%;
+ height: 50px;
+ background-color: $color-1;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+
+ img {
+  width: 200px;
+ }
+}
+
+.icon__navbar {
+ color: $white;
+ margin: 8px;
+}

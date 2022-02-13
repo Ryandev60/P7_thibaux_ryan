@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faUserCog } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
   const logout = () => {
@@ -9,17 +9,22 @@ function Navbar() {
   };
 
   return (
-    <div>
+    <>
       <div className="navbar">
-        <img src="./img/logowhite.png" alt="Logo Groupomania" />
+        <FontAwesomeIcon
+          icon={faUserCog}
+          className="icon__navbar"
+          onClick={() => window.location.assign("/setting")}
+        ></FontAwesomeIcon>
+        <img src="./img/logowhite.png" alt="Logo Groupomania" onClick={() => window.location.assign("/")}/>
 
         <FontAwesomeIcon
           icon={faSignOutAlt}
-          className="icon"
+          className="icon__navbar"
           onClick={logout}
         ></FontAwesomeIcon>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -7,6 +7,7 @@ import {
   faImage,
   faThumbsUp,
   faComment,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -27,6 +28,30 @@ export default function Post() {
   const [avatar, setAvatar] = useState("");
   const placeholder = "Quoi de neuf aujourd'hui " + firstName;
 
+  //
+  const [deletePost, setDeletePost] = useState(0);
+
+  useEffect(() => {
+    if (deletePost !== 0) {
+      if (window.confirm("Supprimer le post ? ")) {
+        axios({
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser}`,
+          },
+          url: `http://localhost:5000/api/posts/delete/${deletePost}`,
+          data: {
+            userId: currentUserDecoded.userId,
+          },
+        })
+          .then(setDeletePost(0), setRefresh(!refresh))
+          .catch((error) => console.log(error.response.data));
+      } else {
+        setDeletePost(0);
+      }
+    }
+  }, [deletePost]);
   // Récupération informations Post
 
   const [newPostContent, setNewPostContent] = useState("");
@@ -191,6 +216,16 @@ export default function Post() {
                     </p>
                     <p>{formatDate(item.createdAt)}</p>
                   </div>
+                  {item.userId === currentUserDecoded.userId ||
+                  currentUserDecoded.admin ? (
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faTrashAlt}
+                        className="icon__delete__post"
+                        onClick={() => setDeletePost(item.id)}
+                      ></FontAwesomeIcon>
+                    </div>
+                  ) : null}
                 </div>
                 <div>
                   <p className="postcontent">{item.postContent}</p>
@@ -251,6 +286,7 @@ export default function Post() {
                   postid={item.id}
                   setRefresh={setRefresh}
                   refresh={refresh}
+                  avatar={avatar}
                 />
               </div>
             </Fragment>

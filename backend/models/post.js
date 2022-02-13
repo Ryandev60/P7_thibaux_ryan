@@ -21,21 +21,27 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  // Association Post
   Post.associate = (models) => {
-    // Récupération du l'id user avec Post
+    //  User
     Post.belongsTo(models.User, {
       foreignKey: "userId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+      hooks: true,
     });
 
-    // Envoi de l'id du Post
+    // Comment
     Post.hasMany(models.Comment, {
-      onDelete: "cascade",
       foreignKey: "postId",
     });
+
+    // Like
     Post.hasMany(models.Like, {
-      onDelete: "cascade",
       foreignKey: "postId",
+      hooks: true,
     });
   };
+
   return Post;
 };

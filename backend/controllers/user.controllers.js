@@ -80,25 +80,6 @@ exports.login = (req, res, next) => {
     .catch((error) => res.status(500).json({ error })); // Erreur serveur
 };
 
-// Suprimer un utilisateur
-exports.delete = (req, res) => {
-  const id = req.query.id;
-
-  db.User.destroy({
-    where: { id: id },
-  })
-    .then(() => {
-      res.status(201).send({
-        message: "Utlisateur supprimé avec succés",
-      });
-    })
-    .catch((err) => {
-      res.status(400).send({
-        err,
-      });
-    });
-};
-
 //on récupère un utilisateur
 exports.getOneUser = (req, res, next) => {
   const id = req.params.id;
@@ -230,6 +211,38 @@ exports.updatePassword = (req, res, next) => {
             .catch((error) => {
               res.status(400).json({ error });
             });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
+//Suppression utilisateur
+
+exports.deleteUser = (req, res, next) => {
+  const id = req.params.id;
+  const currentPassword = req.body.currentPassword;
+
+  db.User.findOne({ where: { id: id } })
+    .then((user) => {
+      console.log("hello");
+      bcrypt
+        //on compare le hash du password
+        .compare(currentPassword, user.password)
+        .then((passwordOk) => {
+          if (passwordOk) {
+            db.User.destroy({ where: { id: id } })
+            .then(() => {
+              res
+                .status(200)
+                .json({ message: "Utilisateur supprimer avec succés" });
+            });
+          } else {
+            res
+            .status(401)
+            .json({ message: "Mot de passe inccorect" });
+          }
         });
     })
     .catch((error) => {

@@ -10,8 +10,9 @@ router.post("/signup", userController.signup);
 // Connexion
 router.post("/login", userController.login);
 
-//Supression
-router.delete("/:id", userController.delete);
+//Supression d'un utilisateur
+
+router.delete("/delete/:id", auth, userController.deleteUser);
 
 // Récupération d'un user
 

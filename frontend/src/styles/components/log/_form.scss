@@ -66,30 +66,29 @@
   p {
     margin-bottom: 8px;
   }
-}
 
-.terms {
-  display: flex;
-  font-size: 14px;
-  #terms {
-    width: fit-content;
+  .terms {
+    display: flex;
+    font-size: 14px;
+    #terms {
+      width: fit-content;
+    }
   }
-}
 
-.welcome {
-text-align: center;
-}
+  .welcome {
+    text-align: center;
+  }
 
-.password {
-  margin-top: 5px;
-  display: flex;
-  justify-content: center;
-  font-size: 13px;
-  text-align: center;
+  .password {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    font-size: 13px;
+    text-align: center;
+  }
 
-}
-
-.textpassword {
-  color: $white;
-  text-align: center;
+  .textpassword {
+    color: $white;
+    text-align: center;
+  }
 }

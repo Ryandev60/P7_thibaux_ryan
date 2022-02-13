@@ -15,14 +15,19 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  // Association
   Like.associate = (models) => {
     // User
     Like.belongsTo(models.User, {
       foreignKey: "userId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
     // Post
     Like.belongsTo(models.Post, {
       foreignKey: "postId",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     });
   };
   return Like;

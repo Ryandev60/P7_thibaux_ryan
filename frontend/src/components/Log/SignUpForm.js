@@ -1,32 +1,44 @@
 import React, { useState } from "react";
 import axios from "axios";
-import SignInForm from "./SignInForm";
 import { validEmail, validPassword, validName } from "../../utils/regexp";
 
 export default function SignUpForm() {
+  // State of the button
+
   const [formSubmit, setFormSubmit] = useState(false);
+
+  // Information provided by the user
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [controlPassword, setControlPassword] = useState("");
+
+  // Test Regexp
   const testEmail = validEmail.test(email);
   const testFirstName = validName.test(firstName);
   const testLastName = validName.test(lastName);
   const testPassword = validPassword.test(password);
 
+  // Get element for show error
+
+  const emailError = document.querySelector(".email.error");
+  const firstNameError = document.querySelector(".firstname.error");
+  const lastNameError = document.querySelector(".lastname.error");
+  const passwordError = document.querySelector(".password.error");
+  const passwordConfirmError = document.querySelector(
+    ".password-confirm.error"
+  );
+  const passwordInfo = document.querySelector(".textpassword");
+  const terms = document.getElementById("terms");
+  const termsError = document.querySelector(".terms.error");
+
+  // Function to create a user
+
   const handleRegister = (e) => {
     e.preventDefault();
 
-    const emailError = document.querySelector(".email.error");
-    const firstNameError = document.querySelector(".firstname.error");
-    const lastNameError = document.querySelector(".lastname.error");
-    const passwordError = document.querySelector(".password.error");
-    const passwordConfirmError = document.querySelector(
-      ".password-confirm.error"
-    );
-    const terms = document.getElementById("terms");
-    const termsError = document.querySelector(".terms.error");
     if (
       password === controlPassword &&
       terms.checked &&
@@ -57,6 +69,7 @@ export default function SignUpForm() {
           }
         });
     } else {
+      // Show error to user
       if (!testEmail) {
         emailError.innerHTML = "Veuillez rentrer un email correct";
       } else {
@@ -75,9 +88,8 @@ export default function SignUpForm() {
       if (!testPassword) {
         passwordError.innerHTML =
           "Doit contenir au moins 8 caractères dont une majuscules et un caractères spécial";
-        console.log(password);
       } else {
-        passwordError.innerHTML = "";
+        passwordError.innerHTML = ""
       }
       if (password !== controlPassword) {
         passwordConfirmError.innerHTML =
@@ -94,6 +106,7 @@ export default function SignUpForm() {
   };
   return (
     <>
+      {/* If the user registered we tell him welcome*/}
       {formSubmit ? (
         <>
           <span></span>
@@ -103,6 +116,7 @@ export default function SignUpForm() {
         </>
       ) : (
         <div className="form signup">
+          {/* If the user want to register*/}
           <form action="" onSubmit={handleRegister}>
             <img src="./img/logowhite.png" alt="" />
             <label htmlFor="">Email</label>
@@ -119,7 +133,7 @@ export default function SignUpForm() {
               type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="password error"><span className="textpassword">Doit contenir 8 caractères dont une majuscule et un caractère spécial</span> </div>
+            <div className="password error"></div>
             <label htmlFor="">Confirmer votre mot de passe</label>{" "}
             <input
               type="password"
