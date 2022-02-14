@@ -1,9 +1,18 @@
+// Import
+
 import React, { useState } from "react";
 import axios from "axios";
 
+// Component
+
 export default function SignInForm() {
+
+  // State
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // Function handleLogin
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -34,11 +43,12 @@ export default function SignInForm() {
       });
   };
 
+  // JSX
+
   return (
     <div className="form">
       <form action="" onSubmit={handleLogin}>
         <img src="./img/logowhite.png" alt="" />
-
         <label htmlFor="">Email</label>
         <input
           type="text"

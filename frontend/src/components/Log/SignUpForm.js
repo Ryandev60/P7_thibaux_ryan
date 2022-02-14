@@ -1,3 +1,5 @@
+// Import
+
 import React, { useState } from "react";
 import axios from "axios";
 import { validEmail, validPassword, validName } from "../../utils/regexp";
@@ -7,7 +9,7 @@ export default function SignUpForm() {
 
   const [formSubmit, setFormSubmit] = useState(false);
 
-  // Information provided by the user
+  // State
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +18,7 @@ export default function SignUpForm() {
   const [controlPassword, setControlPassword] = useState("");
 
   // Test Regexp
+
   const testEmail = validEmail.test(email);
   const testFirstName = validName.test(firstName);
   const testLastName = validName.test(lastName);
@@ -34,7 +37,7 @@ export default function SignUpForm() {
   const terms = document.getElementById("terms");
   const termsError = document.querySelector(".terms.error");
 
-  // Function to create a user
+  // Function handleRegister
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -89,7 +92,7 @@ export default function SignUpForm() {
         passwordError.innerHTML =
           "Doit contenir au moins 8 caractères dont une majuscules et un caractères spécial";
       } else {
-        passwordError.innerHTML = ""
+        passwordError.innerHTML = "";
       }
       if (password !== controlPassword) {
         passwordConfirmError.innerHTML =
@@ -104,6 +107,9 @@ export default function SignUpForm() {
       }
     }
   };
+
+  // JSX
+
   return (
     <>
       {/* If the user registered we tell him welcome*/}

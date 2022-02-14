@@ -13,23 +13,37 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Comment from "./Comment";
 
-// Composant Post
+// Component
 
 export default function Post() {
-  // Récupération information utilisateur
-  const contentPostInnerHtml = document.querySelector(".createpostcontent");
+  // Get user info
   const currentUser = JSON.parse(localStorage.getItem("user"));
+  const currentUserDecoded = currentUser && jwt_decode(currentUser);
+
   if (!currentUser) {
     window.location.assign("/login");
   }
-  const currentUserDecoded = currentUser && jwt_decode(currentUser);
+
+  // State
+
   const [refresh, setRefresh] = useState(false);
   const [firstName, setFirstname] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [deletePost, setDeletePost] = useState(0);
+  const [newPostContent, setNewPostContent] = useState("");
+  const [data, setData] = useState([]);
+  const [postLiked, setPostLiked] = useState(null);
+  const [image, setImage] = useState(null);
+
+  // querySelector
+
+  const contentPostInnerHtml = document.querySelector(".createpostcontent");
+
+  // placeholder comment
+
   const placeholder = "Quoi de neuf aujourd'hui " + firstName;
 
-  //
-  const [deletePost, setDeletePost] = useState(0);
+  // Delete post
 
   useEffect(() => {
     if (deletePost !== 0) {
@@ -52,14 +66,8 @@ export default function Post() {
       }
     }
   }, [deletePost]);
-  // Récupération informations Post
 
-  const [newPostContent, setNewPostContent] = useState("");
-  const [data, setData] = useState([]);
-
-  // Like
-
-  const [postLiked, setPostLiked] = useState(null);
+  // Get post info
 
   useEffect(() => {
     axios({
@@ -78,15 +86,13 @@ export default function Post() {
       .catch((error) => console.log(error.response));
   }, [postLiked]);
 
-  //Upload file
-
-  const [image, setImage] = useState(null);
+  // Upload file
 
   const onFileChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Fonction pour convertir la date
+  // Function formatDate
 
   const formatDate = (dateString) => {
     const options = {
@@ -99,7 +105,7 @@ export default function Post() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Appel aux informations Post
+  // fetchData Post
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +117,7 @@ export default function Post() {
     fetchData();
   }, [refresh]);
 
-  // Appel aux informations utilisateur
+  // fetchData User
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,7 +134,7 @@ export default function Post() {
     fetchData();
   }, []);
 
-  // Fonction création d'un Post
+  // Function handleCreatePost
 
   const handleCreatePost = () => {
     let formData = new FormData();
@@ -152,12 +158,13 @@ export default function Post() {
       .catch((error) => console.log(error.response));
   };
 
-  // Composant retourner
+  // JSX
 
   return (
     <div className="containerpost">
-      {/* Espace Post*/}
       <div className="postspace">
+        {/* Create Post*/}
+
         <div className="createpost">
           <div className="avatartextarea">
             <div className="avatar">
@@ -189,7 +196,6 @@ export default function Post() {
               className="white"
               accept=".png, .jpg, .jpeg, .gif"
             />
-
             <FontAwesomeIcon
               icon={faPaperPlane}
               className="icon"
@@ -197,10 +203,15 @@ export default function Post() {
             ></FontAwesomeIcon>
           </div>
         </div>
+
+        {/* Map Post in DB*/}
+
         <div className="news">
           {data.map((item) => (
             <Fragment key={item.id}>
               <div key={item.id} className="post">
+                {/* Post info*/}
+
                 <div className="postinfo">
                   <div className="avatar">
                     <img
@@ -210,12 +221,18 @@ export default function Post() {
                       onClick={() => window.location("/")}
                     />
                   </div>
+
+                  {/* User who have create post info */}
+
                   <div className="userandtime">
                     <p>
                       {item.User.firstName} {item.User.lastName}
                     </p>
                     <p>{formatDate(item.createdAt)}</p>
                   </div>
+
+                  {/* Delete post */}
+
                   {item.userId === currentUserDecoded.userId ||
                   currentUserDecoded.admin ? (
                     <div>
@@ -227,6 +244,9 @@ export default function Post() {
                     </div>
                   ) : null}
                 </div>
+
+                {/* Content post*/}
+
                 <div>
                   <p className="postcontent">{item.postContent}</p>
                 </div>
@@ -234,7 +254,7 @@ export default function Post() {
                   <img src={item.attachment} alt="" />
                 </div>
 
-                {/* Like et commentaires */}
+                {/* Number of like and comment */}
 
                 <div className="numberlikecomment">
                   <ul>
@@ -256,6 +276,9 @@ export default function Post() {
                     </li>
                   </ul>
                 </div>
+
+                {/* Like / comment*/}
+
                 <div className="likecomment">
                   <ul>
                     <li>
@@ -276,7 +299,7 @@ export default function Post() {
                   </ul>
                 </div>
 
-                {/*Espace commentaires */}
+                {/* Comment space */}
 
                 <Comment
                   boucle={item.Comments}

@@ -11,24 +11,33 @@ import {
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
-// Composant Comment
+// Component
 
 export default function Comment(props) {
+  // Get user
+
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const currentUserDecoded = currentUser && jwt_decode(currentUser);
+
+  // State
+
   const [showComment, setShowComments] = useState(true);
   const [newCommentContent, setNewCommentContent] = useState("");
+  const [deleteComment, setDeleteComment] = useState(0);
+
+  // querySelector
+
   const contentCommentInnerHtml = document.querySelector(
     ".createcommentcontent"
   );
 
-  // Fonction affichage des commentaires
+  // Function ShowComment
 
   const handleShowComment = () => {
     setShowComments(!showComment);
   };
 
-  const [deleteComment, setDeleteComment] = useState(0);
+  // Delete comment
 
   useEffect(() => {
     if (deleteComment !== 0) {
@@ -52,7 +61,7 @@ export default function Comment(props) {
     }
   }, [deleteComment]);
 
-  // Fonction création d'un commentaire
+  // Function handleCreateComment
 
   const handleCreateComment = () => {
     axios({
@@ -73,14 +82,17 @@ export default function Comment(props) {
         contentCommentInnerHtml.value
           ? (contentCommentInnerHtml.value = "")
           : null,
+
         setNewCommentContent("")
       )
       .catch((error) => console.log(error.response));
   };
 
-  // Si on clique sur commentaires on verra ces derniers
+  // If showComment == true, we show the comment
 
   if (showComment) {
+    // JSX
+
     return (
       <div className="commentspace">
         {props.boucle.map((comment) => (
@@ -111,7 +123,9 @@ export default function Comment(props) {
             <p>{comment.content}</p>
           </div>
         ))}
+
         {/* Créé un commentaire*/}
+
         <div className="create__comment__space">
           <div className="createcomment">
             {" "}
