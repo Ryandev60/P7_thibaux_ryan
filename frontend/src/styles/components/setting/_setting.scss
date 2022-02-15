@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
   color: $white;
 
   label {
@@ -23,6 +22,10 @@
   .nameimage {
     height: 16px;
   }
+
+  img {
+    object-fit: cover;
+  }
 }
 
 .paramspace {
@@ -30,8 +33,9 @@
   display: flex;
   flex-direction: column;
   background-color: $color-1;
-  width: 296px;
+  width: 300px;
   padding: 12px;
+  margin-top: 20px;
   p {
     color: $white;
     margin: 8px;

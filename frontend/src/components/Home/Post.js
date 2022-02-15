@@ -156,7 +156,11 @@ export default function Post() {
         postId: postLiked,
       },
     })
-      .then(setRefresh(!refresh), setPostLiked(null))
+      .then((response) => {
+        console.log(response.data);
+        setRefresh(!refresh);
+        setPostLiked(null);
+      })
       .catch((error) => console.log(error.response));
   }, [postLiked]);
 

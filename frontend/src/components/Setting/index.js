@@ -197,7 +197,7 @@ export default function Param() {
           userId: currentUserDecoded.userId,
         },
       })
-        .then(setRefresh(true))
+        .then((deleteUserError.innerHTML = "Utilisateur supprimé avec succés"))
         .catch(
           (error) => (deleteUserError.innerHTML = error.response.data.error)
         );

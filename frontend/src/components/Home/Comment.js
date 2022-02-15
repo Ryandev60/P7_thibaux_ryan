@@ -31,11 +31,6 @@ export default function Comment(props) {
     ".createcommentcontent"
   );
 
-  // Function ShowComment
-
-  const handleShowComment = () => {
-    setShowComments(!showComment);
-  };
 
   // Delete comment
 
@@ -82,6 +77,7 @@ export default function Comment(props) {
         contentCommentInnerHtml.value
           ? (contentCommentInnerHtml.value = "")
           : null,
+          contentCommentInnerHtml.innerHTML = "",
 
         setNewCommentContent("")
       )

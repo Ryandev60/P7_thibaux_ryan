@@ -39,6 +39,8 @@ exports.getAll = (req, res) => {
       },
       {
         model: db.Comment,
+        order: [["createdAt", "DESC"]],
+
         include: [
           {
             model: db.User,
@@ -63,12 +65,12 @@ exports.delete = (req, res) => {
   const userId = req.body.userId;
   console.log(postId);
 
-  db.Post.findOne({ where: { id: postId} })
+  db.Post.findOne({ where: { id: postId } })
     .then((post) => {
       if (!post) {
         return res.status(404).json({ error: "Le post n'a pas été trouver" });
       }
-      db.Post.destroy({ where: { id: postId} })
+      db.Post.destroy({ where: { id: postId } })
         .then(() => {
           res.status(200).json({ message: "Le post a bien été supprimmer" });
         })

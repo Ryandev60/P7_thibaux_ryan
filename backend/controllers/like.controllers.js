@@ -20,7 +20,7 @@ exports.updateLike = (req, res, next) => {
           },
         })
           .then(() => {
-            res.status(201).json({ message: "Le like a bien été retirer" });
+            res.status(201).json({ deletelike: "Le like a bien été retirer" });
           })
           .catch((error) => {
             res.status(400).json({ error });
@@ -28,7 +28,7 @@ exports.updateLike = (req, res, next) => {
       } else {
         db.Like.create(newLike)
           .then(() => {
-            res.status(201).json({ message: "Le like a bien été ajouter" });
+            res.status(201).json({ newlike: "Le like a bien été ajouter" });
           })
           .catch((error) => {
             res.status(400).json({ error });

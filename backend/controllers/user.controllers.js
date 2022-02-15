@@ -247,9 +247,17 @@ exports.deleteUser = (req, res, next) => {
     });
 };
 
+//Suppression utilisateur par admin
+
 exports.deleteUserByAdmin = (req, res, next) => {
   const id = req.body.userId;
   const deleteUserPassword = req.body.deleteUserPassword;
 
-  db.User.destroy({where: {id : id}})
+  db.User.destroy({ where: { id: id } });
 };
+
+// db.User.destroy({ where: { id: id } }).then(() => {
+//   res
+//     .status(200)
+//     .json({ message: "Utilisateur supprimer avec succés" });
+// });
