@@ -196,9 +196,11 @@ export default function Param() {
           deleteUserPassword,
           userId: currentUserDecoded.userId,
         },
-      }).catch(
-        (error) => (deleteUserError.innerHTML = error.response.data.error)
-      );
+      })
+        .then(setRefresh(true))
+        .catch(
+          (error) => (deleteUserError.innerHTML = error.response.data.error)
+        );
     }
   };
 
@@ -232,8 +234,8 @@ export default function Param() {
 
         {/* Firstname */}
 
+        <p>{firstName}</p>
         <div className="modify__align">
-          <p>{firstName}</p>
           <input
             type="text"
             placeholder="Modifier votre prénom"
@@ -247,9 +249,9 @@ export default function Param() {
         <div className="message__firstname modify__error"></div>
 
         {/* Lastname */}
+        <p>{lastName}</p>
 
         <div className="modify__align">
-          <p>{lastName}</p>
           <input
             type="text"
             placeholder="Modifier votre nom"

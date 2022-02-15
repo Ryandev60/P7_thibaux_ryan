@@ -3,6 +3,7 @@ import Home from './Pages/Home'
 import Login from "./Pages/Login";
 import ErrorPage from "./Pages/ErrorPage";
 import Setting from "./Pages/Setting";
+import Admin from "./Pages/Admin";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/setting" element={<Setting />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
   );

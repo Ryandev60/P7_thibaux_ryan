@@ -38,59 +38,11 @@ export default function Post() {
   // querySelector
 
   const contentPostInnerHtml = document.querySelector(".createpostcontent");
+  const nameImage = document.querySelector(".image__name");
 
   // placeholder comment
 
   const placeholder = "Quoi de neuf aujourd'hui " + firstName;
-
-  // Delete post
-
-  useEffect(() => {
-    if (deletePost !== 0) {
-      if (window.confirm("Supprimer le post ? ")) {
-        axios({
-          method: "delete",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${currentUser}`,
-          },
-          url: `http://localhost:5000/api/posts/delete/${deletePost}`,
-          data: {
-            userId: currentUserDecoded.userId,
-          },
-        })
-          .then(setDeletePost(0), setRefresh(!refresh))
-          .catch((error) => console.log(error.response.data));
-      } else {
-        setDeletePost(0);
-      }
-    }
-  }, [deletePost]);
-
-  // Get post info
-
-  useEffect(() => {
-    axios({
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${currentUser}`,
-      },
-      url: "http://localhost:5000/api/like/update",
-      data: {
-        userId: currentUserDecoded.userId,
-        postId: postLiked,
-      },
-    })
-      .then(setRefresh(!refresh), setPostLiked(null))
-      .catch((error) => console.log(error.response));
-  }, [postLiked]);
-
-  // Upload file
-
-  const onFileChange = (e) => {
-    setImage(e.target.files[0]);
-  };
 
   // Function formatDate
 
@@ -158,6 +110,56 @@ export default function Post() {
       .catch((error) => console.log(error.response));
   };
 
+  // Upload file
+
+  const onFileChange = (e) => {
+    setImage(e.target.files[0]);
+    nameImage.innerHTML = e.target.files[0].name;
+  };
+
+  // Delete post
+
+  useEffect(() => {
+    if (deletePost !== 0) {
+      if (window.confirm("Supprimer le post ? ")) {
+        axios({
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser}`,
+          },
+          url: `http://localhost:5000/api/posts/delete/${deletePost}`,
+          data: {
+            userId: currentUserDecoded.userId,
+          },
+        })
+          .then(setDeletePost(0), setRefresh(!refresh))
+          .catch((error) => console.log(error.response.data));
+      } else {
+        setDeletePost(0);
+      }
+    }
+  }, [deletePost]);
+
+  // Put like
+
+  useEffect(() => {
+    axios({
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${currentUser}`,
+      },
+      url: "http://localhost:5000/api/like/update",
+      data: {
+        userId: currentUserDecoded.userId,
+        postId: postLiked,
+      },
+    })
+      .then(setRefresh(!refresh), setPostLiked(null))
+      .catch((error) => console.log(error.response));
+  }, [postLiked]);
+
   // JSX
 
   return (
@@ -183,6 +185,8 @@ export default function Post() {
             ></textarea>
           </div>
           <div className="containericon">
+            <div className="image__name"></div>
+
             <label htmlFor="file" className="labelfile">
               <FontAwesomeIcon icon={faImage} className="icon">
                 {" "}
@@ -263,6 +267,7 @@ export default function Post() {
                         <FontAwesomeIcon
                           icon={faThumbsUp}
                           className="icon"
+                          onClick={() => setPostLiked(item.id)}
                         ></FontAwesomeIcon>
                       </li>
                       <li>{item.Likes.length}</li>
