@@ -49,3 +49,55 @@ Executing (default): CREATE TABLE IF NOT EXISTS `Comments` (`content` VARCHAR(25
 Executing (default): SHOW INDEX FROM `Comments` FROM `groupomania`
 Executing (default): CREATE TABLE IF NOT EXISTS `Likes` (`id` INTEGER auto_increment , `userId` INTEGER, `postId` INTEGER, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`), FOREIGN KEY (`userId`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`postId`) REFERENCES `Posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB;
 Executing (default): SHOW INDEX FROM `Likes` FROM `groupomania`
+
+
+
+exports.updatePassword = (req, res, next) => {
+  const id = req.params.id;
+  const newPassword = req.body.newPassword;
+  const currentPassword = req.body.currentPassword;
+
+  db.User.findOne({ where: { id: id } })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ error: "Utilisateur non enregistré" });
+      }
+      bcrypt
+        //on compare le hash du password
+        .compare(currentPassword, user.password)
+        .then((passwordOk) => {
+          console.log(passwordOk);
+          if (!passwordOk) {
+            return res.status(401).json({ error: "Mot de passe irrect" });
+          } else {
+            bcrypt
+              // on hash le mot de passe
+              .hash(newPassword, 10)
+              .then((hash) => {
+                db.User.update(
+                  {
+                    password: hash,
+                  },
+                  { where: { id: id } }
+                ).then(() => {
+                  res
+                    .status(200)
+                    .json({ message: "Mot de passe modifié avec succès" });
+                });
+              })
+              .catch((error) => {
+                res.status(400).json({ error });
+              });
+          }
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ error });
+    });
+};
+
+
+(data) => console.log(data),
+(newPasswordSucess.innerHTML = "Mot de passe modifié avec succés !"),
+(inputCurrentPassword.value = ""),
+(inputNewPassword.value = "")

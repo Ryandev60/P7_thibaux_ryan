@@ -25,7 +25,7 @@ export default function DeleteUser() {
   // If current user is not admin redirect to home
 
   if (currentUserAdmin === false) {
-    window.location.assign("/post");
+    window.location.assign("/");
   }
 
   // fetchData User

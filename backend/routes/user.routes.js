@@ -12,11 +12,19 @@ router.post("/login", userController.login);
 
 //Supression d'un utilisateur
 
-router.delete("/delete/:id", auth, userController.deleteUser);
+router.delete("/delete", auth, userController.deleteUser);
+
+//Supression d'un utilisateur
+
+router.delete("/delete/admin", auth, userController.deleteUserByAdmin);
 
 // Récupération d'un user
 
 router.get("/getone/:id", auth, userController.getOneUser);
+
+// Récupération de plusieurs users
+
+router.get("/getall", auth, userController.getAll);
 
 // Modification de l'avatar
 
@@ -36,7 +44,7 @@ router.put("/modify/email/:id", auth, userController.updateEmail);
 
 // Modification du mot de passe
 
-router.put("/modify/password/:id", auth, userController.updatePassword);
+router.put("/modify/password", auth, userController.updatePassword);
 
 // Exportation des routes
 module.exports = router;

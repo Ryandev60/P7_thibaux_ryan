@@ -95,11 +95,18 @@ exports.getOneUser = (req, res, next) => {
     });
 };
 
+exports.getAll = (req, res) => {
+  db.User.findAll({
+    order: [["createdAt", "DESC"]],
+  })
+    .then((users) => res.status(200).json(users))
+    .catch((error) => res.status(500).json({ error }));
+};
+
 // Mise à jour de l'avatar
 
 exports.updateAvatar = (req, res, next) => {
   const id = req.params.id;
-  console.log(req.file);
 
   const newPost = req.file
     ? {
@@ -126,8 +133,6 @@ exports.updateAvatar = (req, res, next) => {
 exports.updateFirstName = (req, res, next) => {
   const firstName = req.body.firstName;
   const id = req.params.id;
-  console.log(firstName);
-  console.log(id);
 
   if (firstName != 0) {
     db.User.update({ firstName }, { where: { id: id } })
@@ -177,40 +182,37 @@ exports.updateEmail = (req, res, next) => {
 //Mise à jour du mot de passe
 
 exports.updatePassword = (req, res, next) => {
-  const id = req.params.id;
-  const newPassword = req.body.newPassword;
-  const currentPassword = req.body.currentPassword;
-
-  db.User.findOne({ where: { id: id } })
+  db.User.findOne({ where: { id: req.body.userId } })
     .then((user) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non enregistré" });
       }
       bcrypt
         //on compare le hash du password
-        .compare(currentPassword, user.password)
+        .compare(req.body.currentPassword, user.password)
         .then((passwordOk) => {
-          if (!passwordOk) {
+          if (passwordOk === false) {
             return res.status(401).json({ error: "Mot de passe incorrect" });
-          }
-          bcrypt
-            // on hash le mot de passe
-            .hash(newPassword, 10)
-            .then((hash) => {
-              db.User.update(
-                {
-                  password: hash,
-                },
-                { where: { id: id } }
-              ).then(() => {
-                res
-                  .status(200)
-                  .json({ message: "Mot de passe modifié avec succès" });
+          } else {
+            bcrypt
+              // on hash le mot de passe
+              .hash(req.body.newPassword, 10)
+              .then((hash) => {
+                db.User.update(
+                  {
+                    password: hash,
+                  },
+                  { where: { id: req.body.userId } }
+                ).then(() => {
+                  res
+                    .status(200)
+                    .json({ message: "Password modifié avec succès" });
+                });
+              })
+              .catch((error) => {
+                res.status(400).json({ error });
               });
-            })
-            .catch((error) => {
-              res.status(400).json({ error });
-            });
+          }
         });
     })
     .catch((error) => {
@@ -221,31 +223,33 @@ exports.updatePassword = (req, res, next) => {
 //Suppression utilisateur
 
 exports.deleteUser = (req, res, next) => {
-  const id = req.params.id;
-  const currentPassword = req.body.currentPassword;
+  const id = req.body.userId;
+  const deleteUserPassword = req.body.deleteUserPassword;
 
   db.User.findOne({ where: { id: id } })
     .then((user) => {
-      console.log("hello");
       bcrypt
         //on compare le hash du password
-        .compare(currentPassword, user.password)
+        .compare(deleteUserPassword, user.password)
         .then((passwordOk) => {
           if (passwordOk) {
-            db.User.destroy({ where: { id: id } })
-            .then(() => {
+            db.User.destroy({ where: { id: id } }).then(() => {
               res
                 .status(200)
                 .json({ message: "Utilisateur supprimer avec succés" });
             });
-          } else {
-            res
-            .status(401)
-            .json({ message: "Mot de passe inccorect" });
           }
-        });
+        })
+        .catch(res.status(401).json({ error: "Mot de passe incorrect" }));
     })
     .catch((error) => {
       res.status(500).json({ error });
     });
+};
+
+exports.deleteUserByAdmin = (req, res, next) => {
+  const id = req.body.userId;
+  const deleteUserPassword = req.body.deleteUserPassword;
+
+  db.User.destroy({where: {id : id}})
 };
