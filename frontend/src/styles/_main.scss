@@ -27,7 +27,8 @@ $smartphone:"only screen and (max-width:700px)";
 }
 a,
 a:visited {
- color: $color-2;
+  color: $white;
+ text-decoration: underline;
 }
 
 body {

@@ -21,9 +21,9 @@ export default function Comment(props) {
 
   // State
 
-  const [showComment, setShowComments] = useState(true);
   const [newCommentContent, setNewCommentContent] = useState("");
   const [deleteComment, setDeleteComment] = useState(0);
+
 
   // querySelector
 
@@ -86,7 +86,6 @@ export default function Comment(props) {
 
   // If showComment == true, we show the comment
 
-  if (showComment) {
     // JSX
 
     return (
@@ -138,12 +137,6 @@ export default function Comment(props) {
             </div>{" "}
           </div>
           <div className="containericon">
-            <label htmlFor="file" className="label-file"></label>
-            <input type="file" name="file" id="file-upload" />
-            <FontAwesomeIcon icon={faImage} className="iconcomment">
-              {" "}
-              <input type="file" accept=".jpg" />
-            </FontAwesomeIcon>
             <FontAwesomeIcon
               icon={faPaperPlane}
               className="iconcomment"
@@ -153,7 +146,4 @@ export default function Comment(props) {
         </div>
       </div>
     );
-  } else {
-    return <div></div>;
-  }
 }

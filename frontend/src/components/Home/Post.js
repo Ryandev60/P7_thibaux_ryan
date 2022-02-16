@@ -67,6 +67,7 @@ export default function Post() {
       setData(result.data);
     };
     fetchData();
+    setRefresh(false)
   }, [refresh]);
 
   // fetchData User
@@ -105,7 +106,8 @@ export default function Post() {
       .then(
         setRefresh(!refresh),
         contentPostInnerHtml.value ? (contentPostInnerHtml.value = "") : null,
-        setNewPostContent("")
+        setNewPostContent(""),
+        (nameImage.innerHTML = "")
       )
       .catch((error) => console.log(error.response));
   };
@@ -266,17 +268,14 @@ export default function Post() {
 
                 <div className="numberlikecomment">
                   <ul>
-                    <ul>
-                      <li>
-                        <FontAwesomeIcon
-                          icon={faThumbsUp}
-                          className="icon"
-                          onClick={() => setPostLiked(item.id)}
-                        ></FontAwesomeIcon>
-                      </li>
-                      <li>{item.Likes.length}</li>
-                    </ul>
-
+                    <li className="likeandnumer">
+                      <FontAwesomeIcon
+                        icon={faThumbsUp}
+                        className="icon"
+                        onClick={() => setPostLiked(item.id)}
+                      ></FontAwesomeIcon>
+                      {item.Likes.length}
+                    </li>
                     <li className="commentnumber">
                       {item.Comments.length}{" "}
                       {item.Comments.length > 1
