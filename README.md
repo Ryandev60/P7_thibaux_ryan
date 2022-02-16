@@ -15,8 +15,7 @@ Projet n°7 du parcours développeur web chez OpenClassrooms qui a pour objectif
 - La suppression du compte doit être possible :heavy_check_mark:
 - L’accès à un forum où les salariés publient des contenus multimédias doit être présent :heavy_check_mark:
 - Les utilisateurs doivent pouvoir facilement repérer les dernières participations des employés :heavy_check_mark:
-- Le ou la chargé-e de communication Groupomania doit pouvoir modérer les interactions entre :heavy_check_mark:
-  salariés
+- Le ou la chargé-e de communication Groupomania doit pouvoir modérer les interactions entre salariés :heavy_check_mark:
 
 ## Technologies utilisées
 
