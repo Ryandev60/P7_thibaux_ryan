@@ -1,4 +1,5 @@
 # CREER UN RESEAU SOCIAL D'ENTREPRISE
+
 Projet n°7 du parcours développeur web chez OpenClassrooms qui a pour objectif:
 
 - Authentifier un utilisateur et maintenir sa session
@@ -6,7 +7,19 @@ Projet n°7 du parcours développeur web chez OpenClassrooms qui a pour objectif
 - Gérer un stockage de données à l'aide de SQL
 - Implémenter un stockage de données sécurisé en utilisant SQL
 
+# Exigences émises par le comité de pilotage
+
+- La présentation des fonctionnalités doit être simple :heavy_check_mark:
+- La création d’un compte doit être simple et possible depuis un téléphone mobile :heavy_check_mark:
+- Le profil doit contenir très peu d’informations pour que sa complétion soit rapide :heavy_check_mark:
+- La suppression du compte doit être possible :heavy_check_mark:
+- L’accès à un forum où les salariés publient des contenus multimédias doit être présent :heavy_check_mark:
+- Les utilisateurs doivent pouvoir facilement repérer les dernières participations des employés :heavy_check_mark:
+- Le ou la chargé-e de communication Groupomania doit pouvoir modérer les interactions entre :heavy_check_mark:
+  salariés
+
 ## Technologies utilisées
+
 - React
 - Sass
 - NodeJS
@@ -41,10 +54,10 @@ mysql -u username -p groupomania < groupomania.sql
 - Ouvrez le fichier " .env-sample " : vous devez assigner des valeurs aux variables suivantes:
 
 - Token
-JWT_SECRET = 
+  JWT_SECRET =
 
 - Port pour le backend
-PORT = 
+  PORT =
 
 - Renommer ce dossier en " .env "
 
@@ -56,7 +69,7 @@ PORT =
 
 - Puis installez les dépendances en exécutant la commande npm install
 
-- Une fois les dépendances installer, lancez le backend en  en exécutant la commande npm start
+- Une fois les dépendances installer, lancez le backend en en exécutant la commande npm start
 
 - Le message "Listening on port " suivi du port que vous avez choisi devrait apparaitre dans la console
 
@@ -71,7 +84,3 @@ PORT =
 ## DANS LE NAVIGATEUR
 
 - Ouvrez votre navigateur à l'adresse: http://localhost:3000/login
-
-
-
-

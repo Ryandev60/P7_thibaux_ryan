@@ -286,28 +286,6 @@ export default function Post() {
                   </ul>
                 </div>
 
-                {/* Like / comment*/}
-
-                <div className="likecomment">
-                  <ul>
-                    <li>
-                      <FontAwesomeIcon
-                        icon={faThumbsUp}
-                        className="icon"
-                        onClick={() => setPostLiked(item.id)}
-                      ></FontAwesomeIcon>{" "}
-                      Aimer
-                    </li>
-                    <li>
-                      <FontAwesomeIcon
-                        icon={faComment}
-                        className="icon"
-                      ></FontAwesomeIcon>
-                      Commenter
-                    </li>
-                  </ul>
-                </div>
-
                 {/* Comment space */}
 
                 <Comment
