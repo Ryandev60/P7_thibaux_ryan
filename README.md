@@ -32,7 +32,9 @@ git clone https://github.com/Ryandev60/P7_thibaux_ryan
 
 mysql -u username -p groupomania < groupomania.sql
 
-- username est le nom d'utilisateur avec lequel vous pouvez vous connecter à la base de données
+- username est le nom d'utilisateur avec lequel vous voulez connecter à la base de données
+- groupomania est le mot de passe de l'utilisateur avec le quel vous souhaitez vous connectez
+- groupomania.sql sont des données qui seront inserer dans la base de données
 
 ## POUR LE BACKEND
 
@@ -46,7 +48,7 @@ PORT =
 
 - Renommer ce dossier en " .env "
 
-- Ouvrez le fichier config.json se trouvant dans le dossier config et renseigner les valeurs souhaités
+- Ouvrez le fichier config.json se trouvant dans le dossier config et renseigner votre nom d'utilisateur et votre mot de passe
 
 ## Installez les dépendances
 
