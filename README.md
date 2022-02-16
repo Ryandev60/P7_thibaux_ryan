@@ -40,12 +40,13 @@ mysql -u username -p groupomania < groupomania.sql
 
 - Token
 JWT_SECRET = 
-- Nom d'utilisateur pour la base de donnée
-HOST_SECRET = 
+
 - Port pour le backend
 PORT = 
 
 - Renommer ce dossier en " .env "
+
+- Ouvrez le fichier config.json se trouvant dans le dossier config et renseigner les valeurs souhaités
 
 ## Installez les dépendances
 
